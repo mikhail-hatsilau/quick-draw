@@ -45,12 +45,12 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('style.css'),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
   ],
   devServer: {
     hot: true,
     proxy: {
-      '*': 'http://localhost:3000'
-    }
-  }
+      '*': 'http://localhost:3000',
+    },
+  },
 };
