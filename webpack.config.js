@@ -3,14 +3,14 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  context: path.resolve(__dirname, './src'),
+  context: path.resolve(__dirname, './client/src'),
   entry: [
     'webpack-dev-server/client?http://localhost:8080/',
     'webpack/hot/only-dev-server',
-    './app'
+    './app',
   ],
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, './client/build'),
     filename: 'bundle.js',
   },
   devtool: '#inline-source-map',
