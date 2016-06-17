@@ -1,16 +1,22 @@
 import React, { PropTypes } from 'react';
-import UserPopup from './UserPopup';
+import NewUserPopup from './NewUserPopup';
+import EditUserPopup from './EditUserPopup';
+import Popup from './Popup';
 import UserItem from './UserItem';
 
 class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userPopupIsShown: false,
+      newUserPopupIsShown: false,
+      editUserPopupIsShown: false,
+      userForEdit: null,
     };
     this.showUserPopup = this.showUserPopup.bind(this);
     this.addUser = this.addUser.bind(this);
     this.closePopup = this.closePopup.bind(this);
+    this.showEditUserPopup = this.showEditUserPopup.bind(this);
+    this.updateUser = this.updateUser.bind(this);
   }
   componentDidMount() {
     this.props.getUsers(this.props.auth.get('token'));
@@ -18,18 +24,35 @@ class Users extends React.Component {
   }
   showUserPopup() {
     this.setState({
-      userPopupIsShown: true,
+      newUserPopupIsShown: true,
+      editUserPopupIsShown: false,
+    });
+  }
+  showEditUserPopup(user) {
+    this.setState({
+      newUserPopupIsShown: false,
+      editUserPopupIsShown: true,
+      userForEdit: user,
     });
   }
   addUser(user) {
     this.props.addUser(user, this.props.auth.get('token'));
     this.setState({
-      userPopupIsShown: false,
+      newUserPopupIsShown: false,
     });
+  }
+  updateUser(user) {
+    this.setState({
+      editUserPopupIsShown: false,
+      userForEdit: null,
+    });
+    console.log(user);
   }
   closePopup() {
     this.setState({
-      userPopupIsShown: false,
+      newUserPopupIsShown: false,
+      editUserPopupIsShown: false,
+      userForEdit: null,
     });
   }
   render() {
@@ -38,6 +61,7 @@ class Users extends React.Component {
         user={user}
         deleteUser={this.props.deleteUser}
         token={this.props.auth.get('token')}
+        showEditUserPopup={this.showEditUserPopup}
       />
     ));
     return (
@@ -55,12 +79,24 @@ class Users extends React.Component {
             {users}
           </tbody>
         </table>
-        {this.state.userPopupIsShown ?
-          <UserPopup
-            roles={this.props.roles}
-            addUser={this.addUser}
-            closePopup={this.closePopup}
-          /> : null
+        {this.state.newUserPopupIsShown ?
+          <Popup>
+            <NewUserPopup
+              roles={this.props.roles}
+              addUser={this.addUser}
+              closePopup={this.closePopup}
+            />
+          </Popup> : null
+        }
+        {this.state.editUserPopupIsShown ?
+          <Popup>
+            <EditUserPopup
+              roles={this.props.roles}
+              updateUser={this.updateUser}
+              closePopup={this.closePopup}
+              user={this.state.userForEdit}
+            />
+          </Popup> : null
         }
       </div>
     );

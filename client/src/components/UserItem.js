@@ -11,7 +11,7 @@ class UserItem extends React.Component {
     this.props.deleteUser(userId, this.props.token);
   }
   editUser() {
-    console.log('edit');
+    this.props.showEditUserPopup(this.props.user);
   }
   render() {
     return (
@@ -32,6 +32,7 @@ UserItem.propTypes = {
   deleteUser: PropTypes.func,
   editUser: PropTypes.func,
   token: PropTypes.string,
+  showEditUserPopup: PropTypes.func,
 };
 
 export default UserItem;
