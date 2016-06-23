@@ -7,10 +7,12 @@ import thunkMiddleware from 'redux-thunk';
 import authReducer from './reducers/authReducer';
 import usersReducer from './reducers/usersReducer';
 import rolesReducer from './reducers/rolesReducer';
+import tasksReducer from './reducers/tasksReducer';
 import Main from './components/Main';
 import SignIn from './containers/SignIn';
 import UsersContainer from './containers/UsersContainer';
 import IndexContainer from './containers/IndexContainer';
+import TasksContainer from './containers/TasksContainer';
 import { authenticate } from './actions/authActions';
 
 import './styles/style.scss';
@@ -20,6 +22,7 @@ const cssQuickDraw = combineReducers({
   auth: authReducer,
   users: usersReducer,
   roles: rolesReducer,
+  tasks: tasksReducer,
 });
 let store = createStore(
   cssQuickDraw,
@@ -35,6 +38,15 @@ function requireAuth(nextState, replace) {
   }
 }
 
+function requireUnauth(nextState, replace) {
+  if (store.getState().auth.get('signedIn')) {
+    replace({
+      pathname: '/',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
+}
+
 const authInfo = JSON.parse(localStorage.getItem('auth'));
 if (authInfo) {
   store.dispatch(authenticate(authInfo.user, authInfo.token));
@@ -45,8 +57,9 @@ ReactDOM.render(
     <Router history={hashHistory}>
       <Route path="/" component={Main}>
         <IndexRoute component={IndexContainer} onEnter={requireAuth} />
-        <Route path="/signin" component={SignIn} />
+        <Route path="/signin" component={SignIn} onEnter={requireUnauth} />
         <Route path="/users" component={UsersContainer} onEnter={requireAuth} />
+        <Route path="/tasks" component={TasksContainer} onEnter={requireAuth} />
       </Route>
     </Router>
   </Provider>,

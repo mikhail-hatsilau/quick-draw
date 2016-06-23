@@ -75,7 +75,7 @@ export function addUser(user, token) {
           if (response.ok) {
             dispatch(addUserSuccess(data.user));
           } else {
-            dispatch(addUserFailure(data.error));
+            dispatch(addUserFailure(data.message));
           }
         });
       })
@@ -128,6 +128,58 @@ export function deleteUser(id, token) {
       })
       .catch(err => {
         console.log(err);
+      });
+  };
+}
+
+function updateUserRequest() {
+  return {
+    type: constants.UPDATE_USER_REQUEST,
+  };
+}
+
+function updateUserSuccess(user) {
+  return {
+    type: constants.UPDATE_USER_SUCCESS,
+    user,
+  };
+}
+
+function updateUserFailure(error) {
+  return {
+    type: constants.UPDATE_USER_FAILURE,
+    error,
+  };
+}
+
+export function updateUser(id, userModel, token) {
+  return dispatch => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + token,
+      },
+      body: JSON.stringify({
+        username: userModel.username,
+        password: userModel.password || '',
+        role: userModel.role,
+      }),
+    };
+    dispatch(updateUserRequest());
+    return fetch('api/users/' + id, options)
+      .then(response => {
+        response.json().then(data => {
+          if (response.ok) {
+            dispatch(updateUserSuccess(data.user));
+          } else {
+            dispatch(updateUserFailure(data.message));
+          }
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
   };
 }

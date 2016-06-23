@@ -301,4 +301,150 @@ describe('Users reducer', () => {
       users: [],
     }));
   });
+  it('should update current user in the state if request is successfull', () => {
+    const state = fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    });
+    const action = {
+      type: constants.UPDATE_USER_SUCCESS,
+      user: {
+        id: 1,
+        username: 'renamedTest1',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+    };
+    const nextState = usersReducer(state, action);
+    expect(state).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    }));
+    expect(nextState).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'renamedTest1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    }));
+  });
+  it('should set error in the state if request is fall', () => {
+    const state = fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    });
+    const action = {
+      type: constants.UPDATE_USER_FAILURE,
+      error: 'Error',
+    };
+    const nextState = usersReducer(state, action);
+    expect(state).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    }));
+    expect(nextState).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+      error: 'Error',
+    }));
+  });
+  it('should remove error in the state if exists and request is successfull', () => {
+    const state = fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+      error: 'Error',
+    });
+    const action = {
+      type: constants.UPDATE_USER_SUCCESS,
+      user: {
+        id: 1,
+        username: 'renamedTest1',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+    };
+    const nextState = usersReducer(state, action);
+    expect(state).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'test1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+      error: 'Error',
+    }));
+    expect(nextState).to.equal(fromJS({
+      users: [
+        {
+          id: 1,
+          username: 'renamedTest1',
+          role: {
+            id: 2,
+            name: 'participant',
+          },
+        },
+      ],
+    }));
+  });
 });

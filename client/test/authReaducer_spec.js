@@ -122,7 +122,7 @@ describe('Auth reducer', () => {
     }));
     expect(nextState).to.equal(fromJS({
       signedIn: false,
-      shouldRedirect: true,
+      shouldRedirect: false,
     }));
   });
   it('should add token and user to state if token exists', () => {
