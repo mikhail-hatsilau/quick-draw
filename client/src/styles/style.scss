@@ -1,3 +1,5 @@
+$table-border-color: gray;
+
 .required-error {
   border: 1px solid red;
 }
@@ -19,8 +21,102 @@
   }
 }
 
-.popup {
+.modal {
   display: inline-block;
   background: white;
   vertical-align: middle;
+}
+
+.tasks-table {
+  display: flex;
+  
+  .participant {
+    flex: 0 0 250px;
+    
+    table {
+      width: 100%;
+    }
+  }
+  
+  .tasks {
+    flex: auto;
+    
+    table {
+      th:first-child, td:first-child {
+        border-left: none;
+      }
+    }
+    
+    thead {
+      th {
+        >div:first-child {
+          flex-direction: column;
+          justify-content: stretch;
+          width: 300px;
+          
+          >div {
+            flex-grow: 1;
+          }
+          
+          >div:last-child {
+            display: flex;
+            border-top: 1px solid $table-border-color;
+            
+            >div {
+              flex: 1 0 50%;
+              text-align: center;
+              border-left: 1px solid $table-border-color;
+              
+              &:first-child {
+                border-left: none;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    tbody {
+      td {
+        >div {
+          display: flex;
+          
+          >div {
+            flex: 1 0 50%;
+            text-align: center;
+            border-left: 1px solid $table-border-color;
+            
+            &:first-child {
+              border-left: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  thead {
+    th {
+      position: relative;
+      >div:first-child {
+        display: flex;
+        height: 80px;
+      }
+    }
+  }
+  
+}
+
+.bordered-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  th, td {
+    border: 1px solid $table-border-color;
+  }
+}
+
+.task-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

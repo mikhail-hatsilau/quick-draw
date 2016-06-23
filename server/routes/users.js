@@ -24,20 +24,33 @@ export function addUser(req, resp, next) {
     password,
     role: roleId,
   });
-  user.save((err, savedUser) => {
+  User.findOne({ username }, (err, currentUser) => {
     if (err) {
       throw new Error(err);
     }
-    Role.findOne({ '_id': savedUser.role }, (err, role) => {
+    if (currentUser) {
+      resp.status(403);
+      resp.json({
+        success: false,
+        message: 'Username is already used',
+      });
+      return;
+    }
+    user.save((err, savedUser) => {
       if (err) {
         throw new Error(err);
       }
-      resp.json({
-        user: {
-          id: savedUser.id,
-          username: savedUser.username,
-          role,
-        },
+      Role.findOne({ '_id': savedUser.role }, (err, role) => {
+        if (err) {
+          throw new Error(err);
+        }
+        resp.json({
+          user: {
+            id: savedUser.id,
+            username: savedUser.username,
+            role,
+          },
+        });
       });
     });
   });
@@ -50,5 +63,57 @@ export function removeUser(req, resp, next) {
       throw new Error(err);
     }
     resp.json({ success: true });
+  });
+}
+
+export function updateUser(req, resp, next) {
+  const userId = req.params.id;
+  const username = req.body.username;
+  const password = req.body.password;
+  const roleId = req.body.role;
+  const updateOptions = {
+    username,
+    role: roleId,
+  };
+
+  User.findById(userId, (err, userforUpdate) => {
+    if (err) {
+      throw new Error(err);
+    }
+    if (!userforUpdate) {
+      resp.status(404);
+      resp.json({
+        success: false,
+        message: 'No such user',
+      });
+      return;
+    }
+
+    if (password) {
+      updateOptions.password = userforUpdate.encodePassword(password);
+    }
+
+    User.update(
+      { '_id': userforUpdate.id },
+      updateOptions,
+      (err) => {
+        if (err) {
+          throw new Error(err);
+        }
+        Role.findById(roleId, (err, role) => {
+          if (err) {
+            throw new Error(err);
+          }
+          resp.json({
+            success: true,
+            user: {
+              id: userforUpdate.id,
+              username,
+              role,
+            },
+          });
+        });
+      }
+    );
   });
 }

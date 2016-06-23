@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getRoles } from '../actions/roleActions';
-import { deleteUser, getUsers, addUser } from '../actions/userActions';
+import { deleteUser, getUsers, addUser, updateUser } from '../actions/userActions';
 import Users from '../components/Users';
 
 const mapStateToProps = (state) => (
@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch) => (
     },
     addUser: (user, token) => {
       dispatch(addUser(user, token));
+    },
+    updateUser: (id, userModel, token) => {
+      dispatch(updateUser(id, userModel, token));
     },
   }
 );

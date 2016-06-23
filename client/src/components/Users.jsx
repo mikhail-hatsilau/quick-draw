@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
-import NewUserPopup from './NewUserPopup';
-import EditUserPopup from './EditUserPopup';
-import Popup from './Popup';
+import Modal from './modal/Modal';
 import UserItem from './UserItem';
+import Form from './Form';
+import Input from './Input';
+import Select from './Select';
+import NewUserModal from './NewUserModal';
+import EditUserModal from './EditUserModal';
 
 class Users extends React.Component {
   constructor(props) {
@@ -14,13 +17,20 @@ class Users extends React.Component {
     };
     this.showUserPopup = this.showUserPopup.bind(this);
     this.addUser = this.addUser.bind(this);
-    this.closePopup = this.closePopup.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.showEditUserPopup = this.showEditUserPopup.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }
   componentDidMount() {
     this.props.getUsers(this.props.auth.get('token'));
     this.props.getRoles(this.props.auth.get('token'));
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.users.get('users').size > this.props.users.get('users').size) {
+      this.setState({
+        newUserPopupIsShown: false,
+      });
+    }
   }
   showUserPopup() {
     this.setState({
@@ -37,18 +47,18 @@ class Users extends React.Component {
   }
   addUser(user) {
     this.props.addUser(user, this.props.auth.get('token'));
-    this.setState({
-      newUserPopupIsShown: false,
-    });
+    // this.setState({
+    //   newUserPopupIsShown: false,
+    // });
   }
-  updateUser(user) {
+  updateUser(id, userModel) {
+    this.props.updateUser(id, userModel, this.props.auth.get('token'));
     this.setState({
       editUserPopupIsShown: false,
       userForEdit: null,
     });
-    console.log(user);
   }
-  closePopup() {
+  closeModal() {
     this.setState({
       newUserPopupIsShown: false,
       editUserPopupIsShown: false,
@@ -60,9 +70,16 @@ class Users extends React.Component {
       <UserItem
         user={user}
         deleteUser={this.props.deleteUser}
-        token={this.props.auth.get('token')}
+        updateUser={this.updateUser}
+        token={this.props.auth.get('token') }
         showEditUserPopup={this.showEditUserPopup}
-      />
+        />
+    ));
+    const roles = this.props.roles.map(role => (
+      {
+        value: role.get('_id'),
+        name: role.get('name'),
+      }
     ));
     return (
       <div>
@@ -70,9 +87,9 @@ class Users extends React.Component {
         <table>
           <thead>
             <tr>
-              <td>Username</td>
-              <td>Role</td>
-              <td />
+              <th>Username</th>
+              <th>Role</th>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -80,23 +97,23 @@ class Users extends React.Component {
           </tbody>
         </table>
         {this.state.newUserPopupIsShown ?
-          <Popup>
-            <NewUserPopup
-              roles={this.props.roles}
-              addUser={this.addUser}
-              closePopup={this.closePopup}
-            />
-          </Popup> : null
+          <NewUserModal
+            closeModal={this.closeModal}
+            addUser={this.addUser}
+            roles={roles}
+            serverError={this.props.users.get('error')}
+          /> :
+          null
         }
         {this.state.editUserPopupIsShown ?
-          <Popup>
-            <EditUserPopup
-              roles={this.props.roles}
-              updateUser={this.updateUser}
-              closePopup={this.closePopup}
-              user={this.state.userForEdit}
-            />
-          </Popup> : null
+          <EditUserModal
+            closeModal={this.closeModal}
+            updateUser={this.updateUser}
+            roles={roles}
+            serverError={this.props.users.get('error')}
+            user={this.state.userForEdit}
+          /> :
+          null
         }
       </div>
     );
@@ -104,13 +121,14 @@ class Users extends React.Component {
 }
 
 Users.propTypes = {
-  auth: PropTypes.object,
-  getUsers: PropTypes.func,
-  getRoles: PropTypes.func,
-  addUser: PropTypes.func,
-  deleteUser: PropTypes.func,
-  users: PropTypes.object,
-  roles: PropTypes.object,
+  auth: PropTypes.object.isRequired,
+  getUsers: PropTypes.func.isRequired,
+  getRoles: PropTypes.func.isRequired,
+  addUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired,
+  roles: PropTypes.object.isRequired,
 };
 
 export default Users;

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
-
+import Navigation from './Navigation';
+import SignOut from './SignOut';
 
 class Header extends React.Component {
   constructor(props) {
@@ -13,23 +13,12 @@ class Header extends React.Component {
     this.props.router.replace('/signin');
   }
   render() {
-    let singOutBlock;
-    let nav;
+    let singOutBlock = null;
+    let nav = null;
     if (this.props.auth.get('signedIn')) {
-      singOutBlock = (
-        <div className="right">
-          <span>{this.props.auth.get('user').get('username')}</span>
-          <a href="" onClick={this.signout}>Sign out</a>
-        </div>
-      );
+      singOutBlock = <SignOut user={this.props.auth.get('user')} signout={this.signout} />;
       if (this.props.auth.get('user').get('role').get('name') === 'admin') {
-        nav = (
-          <ul>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        );
+        nav = <Navigation />;
       }
     }
     return (
