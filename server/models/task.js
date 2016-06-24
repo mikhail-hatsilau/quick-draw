@@ -14,6 +14,10 @@ const taskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  timeLimit: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model('Task', taskSchema);

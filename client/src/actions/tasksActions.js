@@ -1,4 +1,4 @@
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 import fetch from 'isomorphic-fetch';
 
 function getTasksRequest() {
@@ -81,6 +81,7 @@ export function addTask(task, token) {
         name: task.name,
         code: task.code,
         answare: task.answare,
+        timeLimit: task.timeLimit,
       }),
     };
     dispatch(addTaskRequest());

@@ -16,10 +16,12 @@ export function addTask(req, resp, next) {
   const name = req.body.name;
   const code = req.body.code;
   const answare = req.body.answare;
+  const timeLimit = req.body.timeLimit;
   const task = new Task({
     name,
     code,
     answare,
+    timeLimit,
   });
   task.save((err, savedTask) => {
     if (err) {
@@ -47,10 +49,12 @@ export function updateTask(req, resp, next) {
   const name = req.body.name;
   const code = req.body.code;
   const answare = req.body.answare;
+  const timeLimit = req.body.timeLimit;
   const valuesForUpdate = {
     name,
     code,
     answare,
+    timeLimit,
   };
   Task.findById(taskId, (err, task) => {
     if (err) {
@@ -74,6 +78,7 @@ export function updateTask(req, resp, next) {
           name,
           code,
           answare,
+          timeLimit,
         },
       });
     });

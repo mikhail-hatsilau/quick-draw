@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { List, fromJS } from 'immutable';
 import rolesReducer from '../src/reducers/rolesReducer';
-import constants from '../src/constants/constants';
+import constants from '../src/constants/actionConstants';
 
 describe('Roles reducer', () => {
   it('should have initial state', () => {

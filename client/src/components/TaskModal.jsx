@@ -33,6 +33,13 @@ class AddTaskModal extends React.Component {
               label="Answare row"
               value={this.props.task && this.props.task.get('answare')}
             />
+            <Input
+              type="number"
+              name="timeLimit"
+              validators={['required']}
+              label="Time limit"
+              value={this.props.task && this.props.task.get('timeLimit')}
+            />
             <button>{this.props.editMode ? 'Save' : 'Add'}</button>
           </Form>
         </Modal.Content>

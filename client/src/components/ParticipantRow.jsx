@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-export default function ParticipantRow() {
+function ParticipantRow(props) {
   return (
     <tr>
-      <td>Ivanov</td>
+      <td>{props.participant.get('user').get('username')}</td>
     </tr>
   );
 }
+
+ParticipantRow.propTypes = {
+  participant: PropTypes.object,
+};
+
+export default ParticipantRow;

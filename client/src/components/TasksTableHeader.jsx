@@ -16,10 +16,16 @@ class TasksTableHeader extends React.Component {
     return (
       <th>
         <div>
-          <div className="task-name">{this.props.task.get('name')}</div>
+          <div className="task-name">
+            <div>{this.props.task.get('name')}</div>
+          </div>
           <div className="task-info">
-            <div>Time</div>
-            <div>Selector</div>
+            <div>
+              <div>Time</div>
+            </div>
+            <div>
+              <div>Selector</div>
+            </div>
           </div>
         </div>
         <div className="task-controls">

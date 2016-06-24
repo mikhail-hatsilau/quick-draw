@@ -12,6 +12,13 @@ class TasksTable extends React.Component {
         editTask={this.props.editTask}
       />
     ));
+    const resultsOfParticipants = this.props.participants.map(participant => (
+      <TasksTableRow
+        key={participant.get('_id')}
+        participant={participant}
+        tasks={this.props.tasks}
+      />
+    ));
     return (
       <div className="tasks">
         <table className="bordered-table">
@@ -21,7 +28,7 @@ class TasksTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <TasksTableRow />
+            {resultsOfParticipants}
           </tbody>
         </table>
       </div>
@@ -33,6 +40,7 @@ TasksTable.propTypes = {
   tasks: PropTypes.object,
   deleteTask: PropTypes.func,
   editTask: PropTypes.func,
+  participants: PropTypes.object,
 };
 
 export default TasksTable;

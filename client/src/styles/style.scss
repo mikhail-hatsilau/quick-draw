@@ -36,6 +36,18 @@ $table-border-color: gray;
     table {
       width: 100%;
     }
+    
+    thead {
+      tr {
+        th {
+          >div {
+            >div {
+              margin: auto; 
+            }
+          }
+        }
+      }
+    }
   }
   
   .tasks {
@@ -54,21 +66,37 @@ $table-border-color: gray;
           justify-content: stretch;
           width: 300px;
           
+          .task-name {
+            flex: 3 3 auto;
+            
+            >div {
+              margin: auto;
+            }
+          }
+          
+          .task-info {
+            flex: 1 1 auto;
+          }
+          
           >div {
-            flex-grow: 1;
+            display: flex;
           }
           
           >div:last-child {
-            display: flex;
             border-top: 1px solid $table-border-color;
             
             >div {
               flex: 1 0 50%;
+              display: flex;
               text-align: center;
               border-left: 1px solid $table-border-color;
               
               &:first-child {
                 border-left: none;
+              }
+              
+              >div {
+                margin: auto;
               }
             }
           }
@@ -100,7 +128,7 @@ $table-border-color: gray;
       position: relative;
       >div:first-child {
         display: flex;
-        height: 80px;
+        height: 100px;
       }
     }
   }

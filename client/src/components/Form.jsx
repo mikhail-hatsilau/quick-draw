@@ -63,7 +63,6 @@ class Form extends React.Component {
         component.setState({
           isValid: true,
           errors: [],
-          submitted: true,
         });
         return;
       }
@@ -72,7 +71,6 @@ class Form extends React.Component {
         component.setState({
           isValid: false,
           errors,
-          submitted: true,
         });
         valid = false;
         return;
@@ -80,7 +78,6 @@ class Form extends React.Component {
       component.setState({
         isValid: true,
         errors: [],
-        submitted: true,
       });
     });
     this.setState({ isValid: valid });
@@ -99,6 +96,7 @@ class Form extends React.Component {
   submitForm(event) {
     event.preventDefault();
     const formIsValid = this.validateForm();
+    this.setSubmittedState();
     const model = this.getModel();
     if (formIsValid) {
       this.resetForm();

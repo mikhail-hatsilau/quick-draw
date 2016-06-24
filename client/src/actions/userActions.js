@@ -1,4 +1,4 @@
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 import fetch from 'isomorphic-fetch';
 
 function getUsersRequest() {

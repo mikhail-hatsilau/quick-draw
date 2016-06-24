@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class TasksTableItem extends React.Component {
   render() {
     return (
       <td>
         <div>
-          <div>03: 00</div>
-          <div>div div</div>
+          <div>{this.props.time || ''}</div>
+          <div>{this.props.selector || ''}</div>
         </div>
       </td>
     );
   }
 }
+
+TasksTableItem.propTypes = {
+  time: PropTypes.number,
+  selector: PropTypes.string,
+};
 
 export default TasksTableItem;
