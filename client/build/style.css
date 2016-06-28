@@ -26,6 +26,8 @@
     flex: 0 0 250px; }
     .tasks-table .participant table {
       width: 100%; }
+    .tasks-table .participant thead tr th > div > div {
+      margin: auto; }
   .tasks-table .tasks {
     flex: auto; }
     .tasks-table .tasks table th:first-child, .tasks-table .tasks table td:first-child {
@@ -34,17 +36,25 @@
       flex-direction: column;
       justify-content: stretch;
       width: 300px; }
+      .tasks-table .tasks thead th > div:first-child .task-name {
+        flex: 3 3 auto; }
+        .tasks-table .tasks thead th > div:first-child .task-name > div {
+          margin: auto; }
+      .tasks-table .tasks thead th > div:first-child .task-info {
+        flex: 1 1 auto; }
       .tasks-table .tasks thead th > div:first-child > div {
-        flex-grow: 1; }
+        display: flex; }
       .tasks-table .tasks thead th > div:first-child > div:last-child {
-        display: flex;
         border-top: 1px solid gray; }
         .tasks-table .tasks thead th > div:first-child > div:last-child > div {
           flex: 1 0 50%;
+          display: flex;
           text-align: center;
           border-left: 1px solid gray; }
           .tasks-table .tasks thead th > div:first-child > div:last-child > div:first-child {
             border-left: none; }
+          .tasks-table .tasks thead th > div:first-child > div:last-child > div > div {
+            margin: auto; }
     .tasks-table .tasks tbody td > div {
       display: flex; }
       .tasks-table .tasks tbody td > div > div {
@@ -57,7 +67,7 @@
     position: relative; }
     .tasks-table thead th > div:first-child {
       display: flex;
-      height: 80px; }
+      height: 100px; }
 
 .bordered-table {
   table-layout: fixed;
@@ -69,5 +79,14 @@
   position: absolute;
   right: 0;
   top: 0; }
+
+.code-of-task .tag {
+  color: orangered; }
+
+.code-of-task .attr {
+  color: green; }
+
+.code-of-task .attr-value {
+  color: pink; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

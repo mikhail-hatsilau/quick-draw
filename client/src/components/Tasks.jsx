@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import ParticipantTable from './ParticipantTable';
 import TasksTable from './TasksTable';
 import TaskModal from './TaskModal';
+import CurrentTask from './CurrentTask';
 import io from 'socket.io-client';
 
 const socket = io();
@@ -19,6 +20,8 @@ class Tasks extends React.Component {
     this.showAddModal = this.showAddModal.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.editTask = this.editTask.bind(this);
+    this.startTask = this.startTask.bind(this);
+    this.stopTask = this.stopTask.bind(this);
   }
   componentDidMount() {
     const token = this.props.auth.get('token');
@@ -27,9 +30,15 @@ class Tasks extends React.Component {
     socket.emit('join admin', {
       user: this.props.auth.get('user'),
     });
-    socket.on('participant joined', (user) => {
+    socket.on('participant joined', user => {
       console.log(user);
     });
+    socket.on('timer inc', time => {
+      this.props.incTimer(time);
+    });
+  }
+  componentWillUnmount () {
+    socket.emit('admin left');
   }
   showAddModal() {
     this.setState({
@@ -64,10 +73,27 @@ class Tasks extends React.Component {
       taskForEdit: task,
     });
   }
+  startTask(task) {
+    this.props.startTask(task);
+    socket.emit('start quiz', {
+      task,
+    })
+  }
+  stopTask(task) {
+    this.props.stopTask(task);
+    socket.emit('stop quiz');
+  }
   render() {
     return (
       <div>
         <button type="button" onClick={this.showAddModal}>Add task</button>
+        {this.props.quiz.get('taskInProgress') ?
+          <CurrentTask
+            task={this.props.quiz.get('currentTask')}
+            timeSpent={this.props.quiz.get('timeSpent')}
+          /> :
+          null
+        }
         <div className="tasks-table">
           <ParticipantTable
             tasks={this.props.tasks}
@@ -77,7 +103,11 @@ class Tasks extends React.Component {
             tasks={this.props.tasks.get('tasks')}
             deleteTask={this.deleteTask}
             editTask={this.editTask}
+            startTask={this.startTask}
+            stopTask={this.stopTask}
             participants={this.props.participants.get('participants')}
+            isTaskInProgress={this.props.quiz.get('taskInProgress')}
+            taskInProgress={this.props.quiz.get('currentTask')}
           />
         </div>
         {this.state.showTaskModal ?
@@ -103,6 +133,10 @@ Tasks.propTypes = {
   tasks: PropTypes.object,
   getParticipants: PropTypes.func,
   participants: PropTypes.object,
+  startTask: PropTypes.func,
+  stopTask: PropTypes.func,
+  quiz: PropTypes.object,
+  incTimer: PropTypes.func,
 };
 
 export default Tasks;

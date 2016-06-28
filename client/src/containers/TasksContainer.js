@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
 import Tasks from '../components/Tasks';
-import { getTasks, addTask, deleteTask, updateTask } from '../actions/tasksActions';
+import {
+  getTasks,
+  addTask,
+  deleteTask,
+  updateTask,
+  startTask,
+  stopTask } from '../actions/tasksActions';
+import { incTimer } from '../actions/quizActions';
 import { getParticipants } from '../actions/participantsActions';
 
 function mapStateToProps(state) {
@@ -8,6 +15,7 @@ function mapStateToProps(state) {
     auth: state.auth,
     tasks: state.tasks,
     participants: state.participants,
+    quiz: state.quiz,
   };
 }
 
@@ -28,6 +36,15 @@ function mapDispatchToProps(dispatch) {
     getParticipants: (token) => {
       dispatch(getParticipants(token));
     },
+    startTask: (task) => {
+      dispatch(startTask(task));
+    },
+    stopTask: (task, token) => {
+      dispatch(stopTask(task, token));
+    },
+    incTimer: (time) => {
+      dispatch(incTimer(time));
+    }
   };
 }
 

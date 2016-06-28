@@ -80,6 +80,7 @@ export function addTask(task, token) {
       body: JSON.stringify({
         name: task.name,
         code: task.code,
+        deprecatedSelectors: task.deprecatedSelectors,
         answare: task.answare,
         timeLimit: task.timeLimit,
       }),
@@ -194,4 +195,26 @@ export function updateTask(id, taskModel, token) {
         console.log(error);
       });
   };
+}
+
+export function startTask(task) {
+  return {
+    type: constants.START_TASK,
+    task,
+    timeSpent: 0,
+  };
+}
+
+export function stopTask(task) {
+  return {
+    type: constants.STOP_TASK,
+    task,
+  };
+}
+
+export function incTimer(time) {
+  return {
+    type: constants.INC_TIMER_ADMIN,
+    time,
+  }
 }

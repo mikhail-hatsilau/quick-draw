@@ -148,3 +148,15 @@ $table-border-color: gray;
   right: 0;
   top: 0;
 }
+
+.code-of-task {
+  .tag {
+    color: orangered;
+  }
+  .attr {
+    color: green;
+  }
+  .attr-value {
+    color: pink;
+  }
+}
