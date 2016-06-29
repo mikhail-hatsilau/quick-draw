@@ -55,6 +55,8 @@ export default function (io) {
         io.to('admins').emit('timer inc', time);
         if (time >= data.task.timeLimit) {
           clearInterval(interval);
+          io.to('participants').emit('stop');
+          io.to('admins').emit('stop');
         }
       }, 1000);
     });

@@ -39,12 +39,12 @@ function mapDispatchToProps(dispatch) {
     startTask: (task) => {
       dispatch(startTask(task));
     },
-    stopTask: (task, token) => {
-      dispatch(stopTask(task, token));
+    stopTask: () => {
+      dispatch(stopTask());
     },
     incTimer: (time) => {
       dispatch(incTimer(time));
-    }
+    },
   };
 }
 

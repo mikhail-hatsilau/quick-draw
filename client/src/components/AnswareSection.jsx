@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 
 class AnswareSection extends React.Component {
   constructor(props) {
@@ -16,8 +17,11 @@ class AnswareSection extends React.Component {
     this.props.answareChanged(value);
   }
   render() {
+    const classes = classNames('answare-section', {
+      'deprecated-error': this.props.deprecatedError,
+    });
     return (
-      <div className="answare-section">
+      <div className={classes}>
         <input
           type="text"
           value={this.state.value}
@@ -30,6 +34,7 @@ class AnswareSection extends React.Component {
 
 AnswareSection.propTypes = {
   answareChanged: PropTypes.func,
+  deprecatedError: PropTypes.bool,
 };
 
 export default AnswareSection;

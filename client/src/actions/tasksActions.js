@@ -205,10 +205,9 @@ export function startTask(task) {
   };
 }
 
-export function stopTask(task) {
+export function stopTask() {
   return {
     type: constants.STOP_TASK,
-    task,
   };
 }
 

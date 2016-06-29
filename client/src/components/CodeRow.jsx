@@ -20,6 +20,13 @@ class CodeRow extends React.Component {
     newLine = newLine.replace(/"\w+"|'\w+'/g, str => (
       "&value" + str + "&close"
     ));
+    newLine = newLine.replace(/^\s+/, str => {
+      let newStr = '';
+      for (let i = 0, l = str.length; i < l; i++) {
+        newStr += '&nbsp';
+      }
+      return newStr;
+    });
     newLine = newLine
       .replace(/</g, '&lt')
       .replace(/>/g, '&gt')
@@ -30,10 +37,18 @@ class CodeRow extends React.Component {
     return newLine;
   }
   render() {
+    let className = '';
+    if (this.props.chosen && this.props.needed) {
+      className = 'needed-element-chosen';
+    } else if (this.props.chosen) {
+      className = 'wrong-element-chosen';
+    } else if (this.props.needed) {
+      className = 'element-needed';
+    }
     return (
       <tr>
         <td className="code-row-number">{this.props.lineNumber}</td>
-        <td></td>
+        <td className={className}></td>
         <td dangerouslySetInnerHTML={{ __html: this.getStyledRow() }} ></td>
       </tr>
     );
@@ -43,6 +58,8 @@ class CodeRow extends React.Component {
 CodeRow.propTypes = {
   children: PropTypes.string,
   lineNumber: PropTypes.number,
+  needed: PropTypes.bool,
+  chosen: PropTypes.bool,
 };
 
 export default CodeRow;

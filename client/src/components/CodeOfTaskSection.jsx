@@ -6,9 +6,17 @@ class CodeOfTaskSection extends React.Component {
     super(props);
   }
   render() {
-    const rows = this.props.code.split('\n').map((line, index) => (
-      <CodeRow lineNumber={index}>{line}</CodeRow>
-    ));
+    const rows = this.props.code.split('\n').map((line, index) => {
+      let chosen = false;
+      let needed = false;
+      if (this.props.currentAnswares.indexOf('' + index) !== -1) {
+        chosen = true;
+      }
+      if (this.props.neededAnswares.indexOf('' + index) !== -1) {
+        needed = true;
+      }
+      return <CodeRow lineNumber={index} needed={needed} chosen={chosen}>{line}</CodeRow>;
+    });
     return (
       <div className="code-of-task">
         <table>
@@ -24,6 +32,8 @@ class CodeOfTaskSection extends React.Component {
 CodeOfTaskSection.propTypes = {
   code: PropTypes.string,
   selector: PropTypes.string,
+  currentAnswares: PropTypes.array,
+  neededAnswares: PropTypes.string,
 };
 
 export default CodeOfTaskSection;

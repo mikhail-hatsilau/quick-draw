@@ -89,4 +89,25 @@
 .code-of-task .attr-value {
   color: pink; }
 
+.code-of-task .circle, .code-of-task .element-needed:after, .code-of-task .wrong-element-chosen:after, .code-of-task .needed-element-chosen:after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%; }
+
+.code-of-task .element-needed:after {
+  background: white;
+  border: 3px solid green; }
+
+.code-of-task .wrong-element-chosen:after {
+  background: red; }
+
+.code-of-task .needed-element-chosen:after {
+  background: green; }
+
+.answare-section.deprecated-error input {
+  border: red;
+  background: pink; }
+
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

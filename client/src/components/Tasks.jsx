@@ -36,8 +36,11 @@ class Tasks extends React.Component {
     socket.on('timer inc', time => {
       this.props.incTimer(time);
     });
+    socket.on('stop', () => {
+      this.props.stopTask();
+    });
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     socket.emit('admin left');
   }
   showAddModal() {

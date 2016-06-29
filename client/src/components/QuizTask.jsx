@@ -8,8 +8,11 @@ class QuizTask extends React.Component {
     super(props);
     this.answareChanged = this.answareChanged.bind(this);
     this.getDomNodeFromCode = this.getDomNodeFromCode.bind(this);
+    this.checkDeprecatedSelectors = this.checkDeprecatedSelectors.bind(this);
     this.state = {
       codeDomObject: this.getDomNodeFromCode(),
+      deprecatedError: false,
+      currentAnswares: [],
     };
   }
   getDomNodeFromCode() {
@@ -31,9 +34,24 @@ class QuizTask extends React.Component {
     const parser = new DOMParser();
     return parser.parseFromString(code, 'text/html');
   }
+  checkDeprecatedSelectors(selector) {
+    const deprecatedSelectors = this.props.quizTask.get('task').get('deprecatedSelectors').split(',');
+    for (let i = 0, l = selector.length; i < l; i++) {
+      if (deprecatedSelectors.indexOf(selector[i]) !== -1) {
+        this.setState({
+          deprecatedError: true,
+        });
+        return;
+      }
+    }
+    this.setState({
+      deprecatedError: false,
+    });
+  }
   answareChanged(selector) {
     console.log(selector);
     this.props.updateSelector(selector);
+    this.checkDeprecatedSelectors(selector);
     try {
       const queryResults = this.state.codeDomObject.querySelectorAll(selector);
       console.log(queryResults);
@@ -41,11 +59,17 @@ class QuizTask extends React.Component {
       for (let i = 0, l = queryResults.length; i < l; i++) {
         currentAnswares.push(queryResults[i].getAttribute('data-line'));
       }
+      this.setState({
+        currentAnswares,
+      });
       if (currentAnswares.join(',') === this.props.quizTask.get('task').get('answare')) {
         this.context.passTest(true);
       }
     } catch (error) {
       console.log('QuerySelector error');
+      this.setState({
+        currentAnswares: [],
+      });
     }
   }
   render() {
@@ -54,16 +78,19 @@ class QuizTask extends React.Component {
         <TimeSection
           deprecatedSymbols={
             this.props.quizTask.get('task') &&
-            this.props.quizTask.get('task').get('deprecatedSymbols')
+            this.props.quizTask.get('task').get('deprecatedSelectors')
           }
           timeSpent={this.props.quizTask.get('timeSpent')}
         />
         <CodeOfTaskSection
           code={this.props.quizTask.get('task') && this.props.quizTask.get('task').get('code')}
           selector={this.props.quizTask.get('selector')}
+          currentAnswares={this.state.currentAnswares}
+          neededAnswares={this.props.quizTask.get('task').get('answare')}
         />
         <AnswareSection
           answareChanged={this.answareChanged}
+          deprecatedError={this.state.deprecatedError}
         />
       </div>
     );

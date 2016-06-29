@@ -159,4 +159,43 @@ $table-border-color: gray;
   .attr-value {
     color: pink;
   }
+  
+  .circle {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  
+  .element-needed {
+    &:after {
+      @extend .circle;
+      background: white;
+      box-sizing: border-box;
+      border: 3px solid green;
+    }
+  }
+  
+  .wrong-element-chosen {
+    &:after {
+      @extend .circle;
+      background: red;
+    }
+  }
+  
+  .needed-element-chosen {
+    &:after {
+      @extend .circle;
+      background: green;
+    }
+  }
 }
+
+.answare-section.deprecated-error {
+  input {
+    border: red;
+    background: pink;
+  }
+}
+
