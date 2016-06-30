@@ -18,6 +18,7 @@ import TasksContainer from './containers/TasksContainer';
 import QuizTaskContainer from './containers/QuizTaskContainer';
 import ReadyForTestContainer from './containers/ReadyForTestContainer';
 import QuizContainer from './containers/QuizContainer';
+import QuizBoardContainer from './containers/QuizBoardContainer';
 import { authenticate } from './actions/authActions';
 import constants from './constants/constants';
 
@@ -85,6 +86,7 @@ ReactDOM.render(
         <Route path="/auth/:action" component={Auth} onEnter={requireUnauth} />
         <Route path="/users" component={UsersContainer} onEnter={requireAuthAndAdminRole} />
         <Route path="/tasks" component={TasksContainer} onEnter={requireAuthAndAdminRole} />
+        <Route path="/quizBoard" component={QuizBoardContainer} onEnter={requireAuthAndAdminRole} />
         <Route path="/quiz" component={QuizContainer} onEnter={requireAuth}>
           <IndexRedirect to="/ready" />
           <Route path="/ready" component={ReadyForTestContainer} onEnter={requireAuth} />

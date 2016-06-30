@@ -5,7 +5,6 @@ function saveJoinedUser(data, callback) {
     if (err) {
       throw new Error(err);
     }
-    console.log(user);
     if (!user) {
       const participant = new Participant({
         user: data.user.id,
@@ -30,6 +29,45 @@ function saveJoinedUser(data, callback) {
   });
 }
 
+function updateParticipant(data, callback) {
+  const userId = data.user.id;
+  const taskId = data.task['_id'];
+  const taskResult = {
+    task: taskId,
+    time: data.timeSpent,
+    selector: data.selector,
+  };
+  Participant.findOne({ user: userId }, (err, participant) => {
+    if (err) {
+      throw new Error(err);
+    }
+    if (participant.tasksResults.findIndex(result => result.task === taskResult.task) === -1) {
+      Participant.update({ user: userId }, { $set: { tasksResults: taskResult } }, (err) => {
+        if (err) {
+          throw new Error(err);
+        }
+        callback();
+      });
+      return;
+    }
+    Participant.update({ user: userId }, { $push: { tasksResults: taskResult } }, (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+      callback();
+    });
+  });
+}
+
+function removeParticipant(participant, callback) {
+  Participant.remove({ user: participant.id }, err => {
+    if (err) {
+      throw new Error(err);
+    }
+    callback();
+  });
+}
+
 export default function (io) {
   let interval;
   io.on('connection', socket => {
@@ -44,8 +82,8 @@ export default function (io) {
     });
     socket.on('start quiz', data => {
       io.to('participants').emit('start test', data.task);
+      io.to('admins').emit('start test', data.task);
       let time = 0;
-      console.log(interval);
       if (interval) {
         clearInterval(interval);
       }
@@ -65,16 +103,29 @@ export default function (io) {
         clearInterval(interval);
       }
       io.to('participants').emit('stop');
+      io.to('admins').emit('stop');
     });
     socket.on('pass test', (data, callback) => {
-      console.log(data);
+      updateParticipant(data, () => {
+        io.to('admins').emit('participant passed test', {
+          userId: data.user.id,
+          result: {
+            task: data.task['_id'],
+            time: data.timeSpent,
+            selector: data.selector,
+          },
+        });
+      });
       callback();
     });
     socket.on('admin left', () => {
       socket.leave('admins');
     });
-    socket.on('participant left', () => {
+    socket.on('participant left', participant => {
       socket.leave('participants');
+      removeParticipant(participant, () => {
+        io.to('admins').emit('quiz participant left', participant);
+      });
     });
   });
 }

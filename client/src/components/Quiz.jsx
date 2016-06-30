@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import io from 'socket.io-client';
+import constants from '../constants/constants';
 
-const socket = io();
+const socket = io(constants.SOCKET_HOST);
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -31,10 +32,11 @@ class Quiz extends React.Component {
     });
   }
   componentWillUnmount() {
-    console.log('unmounted');
+    socket.emit('participant left', this.props.auth.get('user'));
   }
   passTest(success) {
     socket.emit('pass test', {
+      user: this.props.auth.get('user'),
       task: this.props.quizTask.get('task'),
       timeSpent: this.props.quizTask.get('timeSpent'),
       selector: this.props.quizTask.get('selector'),

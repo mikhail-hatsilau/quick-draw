@@ -41,7 +41,7 @@ describe('Task control reducer', () => {
       timeSpent: 0,
     }));
   });
-  it('should set false value to the taskInProgress property and remove task information when task is stoped', () => {
+  it('should set false value to the taskInProgress property when task is stoped', () => {
     const state = fromJS({
       currentTask: {
         _id: 1,
@@ -69,7 +69,15 @@ describe('Task control reducer', () => {
       timeSpent: 25,
     }));
     expect(nextState).to.equal(fromJS({
+      currentTask: {
+        _id: 1,
+        name: 'task1',
+        code: '<div></div>',
+        answare: 0,
+        timeLimit: 120,
+      },
       taskInProgress: false,
+      timeSpent: 25,
     }));
   });
   it('should update timeSpent property', () => {

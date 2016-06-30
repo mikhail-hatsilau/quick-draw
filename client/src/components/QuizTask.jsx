@@ -9,11 +9,18 @@ class QuizTask extends React.Component {
     this.answareChanged = this.answareChanged.bind(this);
     this.getDomNodeFromCode = this.getDomNodeFromCode.bind(this);
     this.checkDeprecatedSelectors = this.checkDeprecatedSelectors.bind(this);
+    this.checkAnswares = this.checkAnswares.bind(this);
     this.state = {
       codeDomObject: this.getDomNodeFromCode(),
       deprecatedError: false,
       currentAnswares: [],
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    const nextPropsSelector = nextProps.quizTask.get('selector');
+    if (this.props.quizTask.get('selector') !== nextPropsSelector) {
+      this.checkAnswares(nextPropsSelector);
+    }
   }
   getDomNodeFromCode() {
     let code = this.props.quizTask.get('task').get('code');
@@ -51,6 +58,8 @@ class QuizTask extends React.Component {
   answareChanged(selector) {
     console.log(selector);
     this.props.updateSelector(selector);
+  }
+  checkAnswares(selector) {
     this.checkDeprecatedSelectors(selector);
     try {
       const queryResults = this.state.codeDomObject.querySelectorAll(selector);

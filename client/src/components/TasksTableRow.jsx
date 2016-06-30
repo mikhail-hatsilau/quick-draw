@@ -6,7 +6,7 @@ class TasksTableRow extends React.Component {
     const columns = this.props.tasks.map(task => {
       const resultsOfUser = this.props.participant.get('tasksResults');
       const result = resultsOfUser.find(taskResult => (
-        taskResult.get('taskId') === task.get('_id')
+        taskResult.get('task') === task.get('_id')
       ));
       if (result) {
         return <TasksTableItem time={result.get('time')} selector={result.get('selector')} />;

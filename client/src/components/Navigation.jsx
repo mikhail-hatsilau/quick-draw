@@ -10,6 +10,9 @@ function Navigation() {
       <li>
         <Link to="/tasks">Tasks</Link>
       </li>
+      <li>
+        <Link to="/quizBoard">Quiz board</Link>
+      </li>
     </ul>
   );
 }

@@ -8,7 +8,7 @@ import {
   startTask,
   stopTask } from '../actions/tasksActions';
 import { incTimer } from '../actions/quizActions';
-import { getParticipants } from '../actions/participantsActions';
+import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant } from '../actions/participantsActions';
 
 function mapStateToProps(state) {
   return {
@@ -44,6 +44,15 @@ function mapDispatchToProps(dispatch) {
     },
     incTimer: (time) => {
       dispatch(incTimer(time));
+    },
+    addPaticipantResult: (userId, result) => {
+      dispatch(addResultOfParticipant(userId, result));
+    },
+    addParticipant: (user) => {
+      dispatch(addParticipant(user));
+    },
+    removeParticipant: participant => {
+      dispatch(removeParticipant(participant));
     },
   };
 }

@@ -92,12 +92,13 @@
 .code-of-task .circle, .code-of-task .element-needed:after, .code-of-task .wrong-element-chosen:after, .code-of-task .needed-element-chosen:after {
   content: '';
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%; }
 
 .code-of-task .element-needed:after {
   background: white;
+  box-sizing: border-box;
   border: 3px solid green; }
 
 .code-of-task .wrong-element-chosen:after {

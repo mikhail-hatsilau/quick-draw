@@ -4,8 +4,9 @@ import TasksTable from './TasksTable';
 import TaskModal from './TaskModal';
 import CurrentTask from './CurrentTask';
 import io from 'socket.io-client';
+import constants from '../constants/constants';
 
-const socket = io();
+const socket = io(constants.SOCKET_HOST);
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -32,12 +33,20 @@ class Tasks extends React.Component {
     });
     socket.on('participant joined', user => {
       console.log(user);
+      this.props.addParticipant(user);
     });
     socket.on('timer inc', time => {
       this.props.incTimer(time);
     });
     socket.on('stop', () => {
       this.props.stopTask();
+    });
+    socket.on('participant passed test', data => {
+      console.log(data);
+      this.props.addPaticipantResult(data.userId, data.result);
+    });
+    socket.on('quiz participant left', participant => {
+      this.props.removeParticipant(participant);
     });
   }
   componentWillUnmount() {
@@ -80,10 +89,9 @@ class Tasks extends React.Component {
     this.props.startTask(task);
     socket.emit('start quiz', {
       task,
-    })
+    });
   }
-  stopTask(task) {
-    this.props.stopTask(task);
+  stopTask() {
     socket.emit('stop quiz');
   }
   render() {
@@ -140,6 +148,9 @@ Tasks.propTypes = {
   stopTask: PropTypes.func,
   quiz: PropTypes.object,
   incTimer: PropTypes.func,
+  addPaticipantResult: PropTypes.func,
+  addParticipant: PropTypes.func,
+  removeParticipant: PropTypes.func,
 };
 
 export default Tasks;

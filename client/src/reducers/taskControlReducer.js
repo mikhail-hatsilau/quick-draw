@@ -10,9 +10,7 @@ export default function (state = Map({ taskInProgress: false }), action) {
         .set('timeSpent', action.timeSpent);
     case constants.STOP_TASK:
       return state
-        .set('taskInProgress', false)
-        .delete('currentTask')
-        .delete('timeSpent');
+        .set('taskInProgress', false);
     case constants.INC_TIMER:
       return state.set('timeSpent', action.time);
     default:

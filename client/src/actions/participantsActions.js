@@ -55,9 +55,17 @@ export function addParticipant(participant) {
   };
 }
 
-export function addResultOfParticipant(result) {
+export function removeParticipant(participant) {
+  return {
+    type: constants.REMOVE_PARTICIPANT,
+    participant,
+  };
+}
+
+export function addResultOfParticipant(userId, result) {
   return {
     type: constants.ADD_RESULT_OF_PARTICIPANT,
+    userId,
     result,
   };
 }

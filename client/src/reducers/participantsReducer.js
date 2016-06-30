@@ -1,21 +1,34 @@
 import { fromJS } from 'immutable';
-import constatnts from '../constants/actionConstants';
+import constants from '../constants/actionConstants';
 
 export default function (state = fromJS({ participants: [] }), action) {
   switch (action.type) {
-    case constatnts.GET_PARTICIPANTS_SUCCESS:
+    case constants.GET_PARTICIPANTS_SUCCESS:
       return state.set('participants', fromJS(action.participants));
-    case constatnts.ADD_PARTICIPANT:
+    case constants.ADD_PARTICIPANT:
       return state.update('participants', participants => (
         participants.push(fromJS(action.participant))
       ));
-    case constatnts.ADD_RESULT_OF_PARTICIPANT:
+    case constants.REMOVE_PARTICIPANT:
       return state.update('participants', participants => {
-        const index = state.get('participants').findIndex(participant => (
+        const index = participants.findIndex(participant => (
+          participant.get('user').get('_id') === action.participant.id
+        ));
+        return participants.splice(index, 1);
+      });
+    case constants.ADD_RESULT_OF_PARTICIPANT:
+      return state.update('participants', participants => {
+        let index = state.get('participants').findIndex(participant => (
           participant.get('user').get('_id') === action.userId
         ));
         return participants.update(index, participant => (
-          participant.update('tasksResults', results => results.push(fromJS(action.result)))
+          participant.update('tasksResults', results => {
+            index = results.findIndex(result => result.get('task') === action.result.task);
+            if (index !== -1) {
+              return results.update(index, result => result.mergeDeep(action.result));
+            }
+            return results.push(fromJS(action.result));
+          })
         ));
       });
     default:
