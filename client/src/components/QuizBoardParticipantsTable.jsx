@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import QuizBoardParticipantRow from './QuizBoardParticipantRow';
+import Timer from './Timer';
 
 class QuizBoardParticipantsTable extends React.Component {
   render() {
@@ -13,15 +14,19 @@ class QuizBoardParticipantsTable extends React.Component {
     ));
     return (
       <div>
-        <div>Time spent: {this.props.timeSpent}</div>
+        <div>Current task: {this.props.currentTask && this.props.currentTask.get('name')}</div>
+        <div>
+          Time spent:
+          <Timer>{this.props.timeSpent}</Timer>
+        </div>
         <table>
           <thead>
             <tr>
-              <td>Participant</td>
-              <td>Time</td>
-              <td>Length of selector</td>
+              <th>Participant</th>
+              <th>Time</th>
+              <th>Length of selector</th>
               {this.props.showSelector ?
-                <td>Selector</td> :
+                <th>Selector</th> :
                 null
               }
             </tr>

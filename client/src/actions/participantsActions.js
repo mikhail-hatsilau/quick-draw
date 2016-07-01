@@ -69,3 +69,9 @@ export function addResultOfParticipant(userId, result) {
     result,
   };
 }
+
+export function clearResults() {
+  return {
+    type: constants.CLEAR_RESULTS_OF_PARTICIPANTS,
+  };
+}

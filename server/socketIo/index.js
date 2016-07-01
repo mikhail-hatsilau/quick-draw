@@ -41,8 +41,8 @@ function updateParticipant(data, callback) {
     if (err) {
       throw new Error(err);
     }
-    if (participant.tasksResults.findIndex(result => result.task === taskResult.task) === -1) {
-      Participant.update({ user: userId }, { $set: { tasksResults: taskResult } }, (err) => {
+    if (participant.tasksResults.findIndex(result => result.task.toString() === taskResult.task) !== -1) {
+      Participant.update({ user: userId, 'tasksResults.task': taskId }, { $set: { 'tasksResults.$': taskResult } }, (err) => {
         if (err) {
           throw new Error(err);
         }
@@ -61,6 +61,15 @@ function updateParticipant(data, callback) {
 
 function removeParticipant(participant, callback) {
   Participant.remove({ user: participant.id }, err => {
+    if (err) {
+      throw new Error(err);
+    }
+    callback();
+  });
+}
+
+function clearParticipantsResults(callback) {
+  Participant.update({}, { $set: { tasksResults: [] } }, { multi: true }, (err) => {
     if (err) {
       throw new Error(err);
     }
@@ -106,6 +115,9 @@ export default function (io) {
       io.to('admins').emit('stop');
     });
     socket.on('pass test', (data, callback) => {
+      if (!data.success) {
+        data.timeSpent = data.task.timeLimit;
+      }
       updateParticipant(data, () => {
         io.to('admins').emit('participant passed test', {
           userId: data.user.id,
@@ -125,6 +137,11 @@ export default function (io) {
       socket.leave('participants');
       removeParticipant(participant, () => {
         io.to('admins').emit('quiz participant left', participant);
+      });
+    });
+    socket.on('clear results', () => {
+      clearParticipantsResults(() => {
+        io.to('admins').emit('results were cleared');
       });
     });
   });

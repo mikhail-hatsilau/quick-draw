@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import QuizBoard from '../components/QuizBoard';
-import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant } from '../actions/participantsActions';
+import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant, clearResults } from '../actions/participantsActions';
 import { startTask, stopTask } from '../actions/tasksActions';
 import { incTimer } from '../actions/quizActions';
 
@@ -34,6 +34,9 @@ function mapDispatchToProps(dispatch) {
     },
     incTimer: (time) => {
       dispatch(incTimer(time));
+    },
+    clearResults: () => {
+      dispatch(clearResults());
     },
   };
 }

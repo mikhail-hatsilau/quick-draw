@@ -81,6 +81,57 @@ describe('Participants reducer', () => {
       }],
     }));
   });
+  it('should sort participants in the state by their names when the are added', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }],
+    });
+    const action = {
+      type: constants.ADD_PARTICIPANT,
+      participant: {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'Atest',
+        },
+        tasksResults: [],
+      },
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'Atest',
+        },
+        tasksResults: [],
+      }, {
+          _id: 1,
+          user: {
+            _id: 2,
+            username: 'Btest',
+          },
+          tasksResults: [],
+        }],
+    }));
+  });
   it('should add result to the results list of a participant', () => {
     const state = fromJS({
       participants: [{
@@ -126,6 +177,152 @@ describe('Participants reducer', () => {
             selector: '.class',
           },
         ],
+      }],
+    }));
+  });
+  it('should sort participants by their results when they are updated', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }, {
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [{
+          task: '1',
+          time: 10,
+          selector: '.list',
+        }],
+      }],
+    });
+    const action = {
+      type: constants.ADD_RESULT_OF_PARTICIPANT,
+      userId: 2,
+      result: {
+        task: '1',
+        time: 20,
+        selector: '.list',
+      },
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }, {
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [{
+          task: '1',
+          time: 10,
+          selector: '.list',
+        }],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [{
+          task: '1',
+          time: 10,
+          selector: '.list',
+        }],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [{
+          task: '1',
+          time: 20,
+          selector: '.list',
+        }],
+      }],
+    }));
+  });
+  it('should put participant in the end of list if he has no results', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }, {
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [],
+      }],
+    });
+    const action = {
+      type: constants.ADD_RESULT_OF_PARTICIPANT,
+      userId: 1,
+      result: {
+        task: '1',
+        time: 20,
+        selector: '.list',
+      },
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
+      }, {
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 1,
+          username: 'Ctest',
+        },
+        tasksResults: [{
+          task: '1',
+          time: 20,
+          selector: '.list',
+        }],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'Btest',
+        },
+        tasksResults: [],
       }],
     }));
   });
@@ -235,6 +432,87 @@ describe('Participants reducer', () => {
     }));
     expect(nextState).to.equal(fromJS({
       participants: [],
+    }));
+  });
+  it('should remove results of participants from the state', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: '1',
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: '1',
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.CLEAR_RESULTS_OF_PARTICIPANTS,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: '1',
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: '1',
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [],
+      }],
     }));
   });
 });

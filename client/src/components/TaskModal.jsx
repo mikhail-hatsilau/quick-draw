@@ -30,12 +30,13 @@ class AddTaskModal extends React.Component {
               type="text"
               name="deprecatedSelectors"
               label="Deprecated selectors"
+              validation={['listValidation']}
               value={this.props.task && this.props.task.get('deprecatedSelectors')}
             />
             <Input
-              type="number"
+              type="text"
               name="answare"
-              validators={['required']}
+              validators={['required', 'listValidation']}
               label="Answare row"
               value={this.props.task && this.props.task.get('answare')}
             />

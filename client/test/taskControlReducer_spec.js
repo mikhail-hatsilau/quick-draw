@@ -8,6 +8,8 @@ describe('Task control reducer', () => {
     const nextState = taskControlReducer(undefined, {});
     expect(nextState).to.equal(fromJS({
       taskInProgress: false,
+      currentTask: null,
+      timeSpent: 0,
     }));
   });
   it('should add task to the state,set true to the property taskInProgress and set default value of timer when some task is started', () => {

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import TasksTableItem from './TasksTableItem';
+import Timer from './Timer';
 
 class TasksTableRow extends React.Component {
   render() {
@@ -13,9 +14,15 @@ class TasksTableRow extends React.Component {
       }
       return <TasksTableItem />;
     });
+    const totalTime = this.props.participant.get('tasksResults')
+      .reduce((total, result) => {
+        total += +result.get('time');
+        return total;
+      }, 0);
     return (
       <tr>
         {columns}
+        <td><Timer>{totalTime}</Timer></td>
       </tr>
     );
   }

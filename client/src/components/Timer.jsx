@@ -8,7 +8,7 @@ function Timer(props) {
     const secondsStr = seconds < 10 ? '0' + seconds : '' + seconds;
     return minutsStr + ':' + secondsStr;
   }
-  const convertedTime = <span>{convertTime(props.children)}</span>
+  const convertedTime = <span>{convertTime(props.children)}</span>;
   return (
     <div>
       {convertedTime}

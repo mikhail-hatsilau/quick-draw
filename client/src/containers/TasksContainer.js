@@ -8,7 +8,7 @@ import {
   startTask,
   stopTask } from '../actions/tasksActions';
 import { incTimer } from '../actions/quizActions';
-import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant } from '../actions/participantsActions';
+import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant, clearResults } from '../actions/participantsActions';
 
 function mapStateToProps(state) {
   return {
@@ -53,6 +53,9 @@ function mapDispatchToProps(dispatch) {
     },
     removeParticipant: participant => {
       dispatch(removeParticipant(participant));
+    },
+    clearResults: () => {
+      dispatch(clearResults());
     },
   };
 }

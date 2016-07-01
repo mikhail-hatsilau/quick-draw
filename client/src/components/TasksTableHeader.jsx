@@ -37,8 +37,8 @@ class TasksTableHeader extends React.Component {
           </div>
         </div>
         <div className="task-controls">
-          <button type="button" onClick={this.editTask}>Edit</button>
-          <button type="button" onClick={this.deleteTask}>Remove</button>
+          <button type="button" onClick={this.editTask} disabled={this.props.disabledStartButton}>Edit</button>
+        <button type="button" onClick={this.deleteTask} disabled={this.props.disabledStartButton}>Remove</button>
           <button type="button" onClick={this.startTask} disabled={this.props.disabledStartButton}>Start</button>
           <button type="button" onClick={this.stopTask} disabled={this.props.disabledStopButton}>Stop</button>
         </div>

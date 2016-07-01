@@ -1,5 +1,20 @@
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import constants from '../constants/actionConstants';
+
+function sortComparator(participant1, participant2) {
+  const taskResults1 = participant1.get('tasksResults');
+  const taskResults2 = participant2.get('tasksResults');
+  if (!taskResults1.size || !taskResults2.size) {
+    return taskResults2.size - taskResults1.size;
+  }
+  const timeSum1 = taskResults1.reduce((sum, result) => (
+    sum += +result.get('time')
+  ), 0);
+  const timeSum2 = taskResults2.reduce((sum, result) => (
+    sum += +result.get('time')
+  ), 0);
+  return timeSum1 - timeSum2;
+}
 
 export default function (state = fromJS({ participants: [] }), action) {
   switch (action.type) {
@@ -7,7 +22,9 @@ export default function (state = fromJS({ participants: [] }), action) {
       return state.set('participants', fromJS(action.participants));
     case constants.ADD_PARTICIPANT:
       return state.update('participants', participants => (
-        participants.push(fromJS(action.participant))
+        participants
+          .push(fromJS(action.participant))
+          .sort((p1, p2) => p1.get('user').get('username').localeCompare(p2.get('user').get('username')))
       ));
     case constants.REMOVE_PARTICIPANT:
       return state.update('participants', participants => {
@@ -29,8 +46,14 @@ export default function (state = fromJS({ participants: [] }), action) {
             }
             return results.push(fromJS(action.result));
           })
-        ));
+        )).sort(sortComparator);
       });
+    case constants.CLEAR_RESULTS_OF_PARTICIPANTS:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.update('tasksResults', () => List())
+        ))
+      ));
     default:
       return state;
   }

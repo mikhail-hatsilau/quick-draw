@@ -40,6 +40,7 @@ class TasksTable extends React.Component {
           <thead>
             <tr>
               {tasks}
+              <th>Total time</th>
             </tr>
           </thead>
           <tbody>

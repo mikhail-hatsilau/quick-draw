@@ -8,7 +8,7 @@ describe('QuizTest reducer test', () => {
     const nextState = quizTaskReducer(undefined, {});
     expect(nextState).to.equal(Map());
   });
-  it('should add task, spent time and selector properties to the state', () => {
+  it('should add task, spent time, timeLimit and selector properties to the state', () => {
     const state = Map();
     const action = {
       type: constants.START_TEST,
@@ -19,8 +19,8 @@ describe('QuizTest reducer test', () => {
         deprecatedSelectors: '*',
         answare: 0,
         timeLimit: 120,
-      }
-    }
+      },
+    };
     const nextState = quizTaskReducer(state, action);
     expect(state).to.equal(Map());
     expect(nextState).to.equal(fromJS({

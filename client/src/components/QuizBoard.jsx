@@ -12,15 +12,12 @@ class QuizBoard extends React.Component {
       user: this.props.auth.get('user'),
     });
     socket.on('start test', task => {
-      console.log(task);
       this.props.startTask(task);
     });
     socket.on('participant joined', user => {
-      console.log(user);
       this.props.addParticipant(user);
     });
     socket.on('participant passed test', data => {
-      console.log(data);
       this.props.addPaticipantResult(data.userId, data.result);
     });
     socket.on('quiz participant left', participant => {
@@ -28,6 +25,12 @@ class QuizBoard extends React.Component {
     });
     socket.on('stop', () => {
       this.props.stopTask();
+    });
+    socket.on('timer inc', time => {
+      this.props.incTimer(time);
+    });
+    socket.on('results were cleared', () => {
+      this.props.clearResults();
     });
   }
   render() {
@@ -52,6 +55,8 @@ QuizBoard.propTypes = {
   removeParticipant: PropTypes.func,
   startTask: PropTypes.func,
   stopTask: PropTypes.func,
+  incTimer: PropTypes.func,
+  clearResults: PropTypes.func,
 };
 
 export default QuizBoard;

@@ -32,7 +32,6 @@ class Tasks extends React.Component {
       user: this.props.auth.get('user'),
     });
     socket.on('participant joined', user => {
-      console.log(user);
       this.props.addParticipant(user);
     });
     socket.on('timer inc', time => {
@@ -42,11 +41,13 @@ class Tasks extends React.Component {
       this.props.stopTask();
     });
     socket.on('participant passed test', data => {
-      console.log(data);
       this.props.addPaticipantResult(data.userId, data.result);
     });
     socket.on('quiz participant left', participant => {
       this.props.removeParticipant(participant);
+    });
+    socket.on('results were cleared', () => {
+      this.props.clearResults();
     });
   }
   componentWillUnmount() {
@@ -94,6 +95,9 @@ class Tasks extends React.Component {
   stopTask() {
     socket.emit('stop quiz');
   }
+  clearResults() {
+    socket.emit('clear results');
+  }
   render() {
     return (
       <div>
@@ -105,6 +109,7 @@ class Tasks extends React.Component {
           /> :
           null
         }
+        <button onClick={this.clearResults}>Clear results</button>
         <div className="tasks-table">
           <ParticipantTable
             tasks={this.props.tasks}
@@ -151,6 +156,7 @@ Tasks.propTypes = {
   addPaticipantResult: PropTypes.func,
   addParticipant: PropTypes.func,
   removeParticipant: PropTypes.func,
+  clearResults: PropTypes.func,
 };
 
 export default Tasks;

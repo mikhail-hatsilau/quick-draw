@@ -52,6 +52,7 @@ $table-border-color: gray;
   
   .tasks {
     flex: auto;
+    overflow: auto;
     
     table {
       th:first-child, td:first-child {

@@ -1,7 +1,10 @@
 import { fromJS, Map } from 'immutable';
 import constants from '../constants/actionConstants';
 
-export default function (state = Map({ taskInProgress: false }), action) {
+export default function (state = Map({
+  taskInProgress: false,
+  currentTask: null,
+  timeSpent: 0 }), action) {
   switch (action.type) {
     case constants.START_TASK:
       return state
