@@ -4,7 +4,7 @@ export function startTest(task) {
   return {
     type: constants.START_TEST,
     task,
-  }
+  };
 }
 
 export function incTimer(time) {
@@ -24,5 +24,5 @@ export function updateSelector(selector) {
   return {
     type: constants.UPDATE_SELECTOR,
     selector,
-  }
+  };
 }

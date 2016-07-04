@@ -57,6 +57,7 @@ class Input extends React.Component {
           value={this.state.value}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
+          placeholder={this.props.placeholder}
           />
         {!this.state.isValid && this.state.submitted ?
           <div>{errors}</div> :
@@ -73,6 +74,7 @@ Input.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 Input.contextTypes = {

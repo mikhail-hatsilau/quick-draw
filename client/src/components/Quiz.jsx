@@ -38,7 +38,7 @@ class Quiz extends React.Component {
     socket.emit('pass test', {
       user: this.props.auth.get('user'),
       task: this.props.quizTask.get('task'),
-      timeSpent: this.props.quizTask.get('timeSpent'),
+      timeSpent: +this.props.quizTask.get('timeSpent'),
       selector: this.props.quizTask.get('selector'),
       success,
     }, () => {

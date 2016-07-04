@@ -11,7 +11,7 @@ function QuizBoardParticipantRow(props) {
   return (
     <tr>
       <td>{props.participant.get('user').get('username')}</td>
-      <td>{currentTaskResults && <Timer>currentTaskResults.get('time')</Timer>}</td>
+      <td>{currentTaskResults && <Timer>{currentTaskResults.get('time')}</Timer>}</td>
       <td>{currentTaskResults && currentTaskResults.get('selector').length}</td>
       {props.showSelector ?
         <td>{currentTaskResults && currentTaskResults.get('selector')}</td> :

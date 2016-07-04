@@ -5,7 +5,7 @@ const taskResultSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Task',
   },
-  time: String,
+  time: Number,
   selector: String,
 });
 

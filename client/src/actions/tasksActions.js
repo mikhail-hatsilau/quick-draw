@@ -82,7 +82,7 @@ export function addTask(task, token) {
         code: task.code,
         deprecatedSelectors: task.deprecatedSelectors,
         answare: task.answare,
-        timeLimit: task.timeLimit,
+        timeLimit: +task.timeLimit,
       }),
     };
     dispatch(addTaskRequest());
@@ -215,5 +215,5 @@ export function incTimer(time) {
   return {
     type: constants.INC_TIMER_ADMIN,
     time,
-  }
+  };
 }
