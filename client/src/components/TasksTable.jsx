@@ -22,6 +22,7 @@ class TasksTable extends React.Component {
           editTask={this.props.editTask}
           startTask={this.props.startTask}
           stopTask={this.props.stopTask}
+          clearResultsOfTask={this.props.clearResultsOfTask}
           disabledStartButton={disabledStartButton}
           disabledStopButton={disabledStopButton}
         />
@@ -59,6 +60,7 @@ TasksTable.propTypes = {
   participants: PropTypes.object,
   startTask: PropTypes.func,
   stopTask: PropTypes.func,
+  clearResultsOfTask: PropTypes.func,
   taskInProgress: PropTypes.object,
   isTaskInProgress: PropTypes.bool,
 };

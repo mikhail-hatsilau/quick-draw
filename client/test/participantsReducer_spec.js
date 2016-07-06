@@ -515,4 +515,102 @@ describe('Participants reducer', () => {
       }],
     }));
   });
+  it('should remove results of current task from the state', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 10,
+            selector: '.item',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.CLEAR_RESULTS_OF_TASK,
+      taskId: 1,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 10,
+            selector: '.item',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 2,
+            time: 10,
+            selector: '.item',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 2,
+          username: 'test1',
+        },
+        tasksResults: [],
+      }],
+    }));
+  });
 });

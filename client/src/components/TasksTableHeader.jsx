@@ -7,6 +7,7 @@ class TasksTableHeader extends React.Component {
     this.editTask = this.editTask.bind(this);
     this.startTask = this.startTask.bind(this);
     this.stopTask = this.stopTask.bind(this);
+    this.clearResultsOfTask = this.clearResultsOfTask.bind(this);
   }
   deleteTask() {
     this.props.deleteTask(this.props.task.get('_id'));
@@ -19,6 +20,9 @@ class TasksTableHeader extends React.Component {
   }
   stopTask() {
     this.props.stopTask(this.props.task);
+  }
+  clearResultsOfTask() {
+    this.props.clearResultsOfTask(this.props.task);
   }
   render() {
     return (
@@ -37,8 +41,9 @@ class TasksTableHeader extends React.Component {
           </div>
         </div>
         <div className="task-controls">
+          <button tpye="button" onClick={this.clearResultsOfTask} disabled={this.props.disabledStartButton}>Clear results</button>
           <button type="button" onClick={this.editTask} disabled={this.props.disabledStartButton}>Edit</button>
-        <button type="button" onClick={this.deleteTask} disabled={this.props.disabledStartButton}>Remove</button>
+          <button type="button" onClick={this.deleteTask} disabled={this.props.disabledStartButton}>Remove</button>
           <button type="button" onClick={this.startTask} disabled={this.props.disabledStartButton}>Start</button>
           <button type="button" onClick={this.stopTask} disabled={this.props.disabledStopButton}>Stop</button>
         </div>
@@ -55,6 +60,7 @@ TasksTableHeader.propTypes = {
   stopTask: PropTypes.func,
   disabledStartButton: PropTypes.bool,
   disabledStopButton: PropTypes.bool,
+  clearResultsOfTask: PropTypes.func,
 };
 
 export default TasksTableHeader;

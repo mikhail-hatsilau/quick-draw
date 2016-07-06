@@ -77,6 +77,15 @@ function clearParticipantsResults(callback) {
   });
 }
 
+function clearResultsOfTask(task, callback) {
+  Participant.update({}, { $pull: { tasksResults: { task: task['_id'] } } }, (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+    callback();
+  });
+}
+
 export default function (io) {
   let interval;
   io.on('connection', socket => {
@@ -142,6 +151,11 @@ export default function (io) {
     socket.on('clear results', () => {
       clearParticipantsResults(() => {
         io.to('admins').emit('results were cleared');
+      });
+    });
+    socket.on('clear results of task', task => {
+      clearResultsOfTask(task, () => {
+        io.to('admins').emit('results of task were cleared', task['_id']);
       });
     });
   });

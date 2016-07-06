@@ -75,3 +75,10 @@ export function clearResults() {
     type: constants.CLEAR_RESULTS_OF_PARTICIPANTS,
   };
 }
+
+export function clearResultsOfTask(id) {
+  return {
+    type: constants.CLEAR_RESULTS_OF_TASK,
+    taskId: id,
+  };
+}

@@ -49,6 +49,9 @@ class Tasks extends React.Component {
     socket.on('results were cleared', () => {
       this.props.clearResults();
     });
+    socket.on('results of task were cleared', taskId => {
+      this.props.clearResultsOfTask(taskId);
+    });
   }
   componentWillUnmount() {
     socket.emit('admin left');
@@ -98,6 +101,9 @@ class Tasks extends React.Component {
   clearResults() {
     socket.emit('clear results');
   }
+  clearResultsOfTask(task) {
+    socket.emit('clear results of task', task);
+  }
   render() {
     return (
       <div>
@@ -121,6 +127,7 @@ class Tasks extends React.Component {
             editTask={this.editTask}
             startTask={this.startTask}
             stopTask={this.stopTask}
+            clearResultsOfTask={this.clearResultsOfTask}
             participants={this.props.participants.get('participants')}
             isTaskInProgress={this.props.quiz.get('taskInProgress')}
             taskInProgress={this.props.quiz.get('currentTask')}
@@ -157,6 +164,7 @@ Tasks.propTypes = {
   addParticipant: PropTypes.func,
   removeParticipant: PropTypes.func,
   clearResults: PropTypes.func,
+  clearResultsOfTask: PropTypes.func,
 };
 
 export default Tasks;

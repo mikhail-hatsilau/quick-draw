@@ -54,6 +54,15 @@ export default function (state = fromJS({ participants: [] }), action) {
           participant.update('tasksResults', () => List())
         ))
       ));
+    case constants.CLEAR_RESULTS_OF_TASK:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.update('tasksResults', tasksResults => {
+            const index = tasksResults.findIndex(result => result.get('task') === action.taskId);
+            return tasksResults.splice(index, 1);
+          })
+        ))
+      ));
     default:
       return state;
   }

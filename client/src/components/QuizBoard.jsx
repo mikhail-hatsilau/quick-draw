@@ -32,6 +32,9 @@ class QuizBoard extends React.Component {
     socket.on('results were cleared', () => {
       this.props.clearResults();
     });
+    socket.on('results of task were cleared', taskId => {
+      this.props.clearResultsOfTask(taskId);
+    });
   }
   render() {
     return (
@@ -57,6 +60,7 @@ QuizBoard.propTypes = {
   stopTask: PropTypes.func,
   incTimer: PropTypes.func,
   clearResults: PropTypes.func,
+  clearResultsOfTask: PropTypes.func,
 };
 
 export default QuizBoard;
