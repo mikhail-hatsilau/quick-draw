@@ -2,6 +2,11 @@ import React, { PropTypes } from 'react';
 import ParticipantTable from './ParticipantTable';
 import TasksTable from './TasksTable';
 import TaskModal from './TaskModal';
+import CurrentTask from './CurrentTask';
+import io from 'socket.io-client';
+import constants from '../constants/constants';
+
+const socket = io(constants.SOCKET_HOST);
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -16,9 +21,40 @@ class Tasks extends React.Component {
     this.showAddModal = this.showAddModal.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.editTask = this.editTask.bind(this);
+    this.startTask = this.startTask.bind(this);
+    this.stopTask = this.stopTask.bind(this);
   }
   componentDidMount() {
-    this.props.getTasks(this.props.auth.get('token'));
+    const token = this.props.auth.get('token');
+    this.props.getTasks(token);
+    this.props.getParticipants(token);
+    socket.emit('join admin', {
+      user: this.props.auth.get('user'),
+    });
+    socket.on('participant joined', user => {
+      this.props.addParticipant(user);
+    });
+    socket.on('timer inc', time => {
+      this.props.incTimer(time);
+    });
+    socket.on('stop', () => {
+      this.props.stopTask();
+    });
+    socket.on('participant passed test', data => {
+      this.props.addPaticipantResult(data.userId, data.result);
+    });
+    socket.on('quiz participant left', participant => {
+      this.props.removeParticipant(participant);
+    });
+    socket.on('results were cleared', () => {
+      this.props.clearResults();
+    });
+    socket.on('results of task were cleared', taskId => {
+      this.props.clearResultsOfTask(taskId);
+    });
+  }
+  componentWillUnmount() {
+    socket.emit('admin left');
   }
   showAddModal() {
     this.setState({
@@ -53,16 +89,48 @@ class Tasks extends React.Component {
       taskForEdit: task,
     });
   }
+  startTask(task) {
+    this.props.startTask(task);
+    socket.emit('start quiz', {
+      task,
+    });
+  }
+  stopTask() {
+    socket.emit('stop quiz');
+  }
+  clearResults() {
+    socket.emit('clear results');
+  }
+  clearResultsOfTask(task) {
+    socket.emit('clear results of task', task);
+  }
   render() {
     return (
       <div>
         <button type="button" onClick={this.showAddModal}>Add task</button>
+        {this.props.quiz.get('taskInProgress') ?
+          <CurrentTask
+            task={this.props.quiz.get('currentTask')}
+            timeSpent={this.props.quiz.get('timeSpent')}
+          /> :
+          null
+        }
+        <button onClick={this.clearResults}>Clear results</button>
         <div className="tasks-table">
-          <ParticipantTable />
+          <ParticipantTable
+            tasks={this.props.tasks}
+            participants={this.props.participants.get('participants')}
+          />
           <TasksTable
             tasks={this.props.tasks.get('tasks')}
             deleteTask={this.deleteTask}
             editTask={this.editTask}
+            startTask={this.startTask}
+            stopTask={this.stopTask}
+            clearResultsOfTask={this.clearResultsOfTask}
+            participants={this.props.participants.get('participants')}
+            isTaskInProgress={this.props.quiz.get('taskInProgress')}
+            taskInProgress={this.props.quiz.get('currentTask')}
           />
         </div>
         {this.state.showTaskModal ?
@@ -86,6 +154,17 @@ Tasks.propTypes = {
   deleteTask: PropTypes.func,
   updateTask: PropTypes.func,
   tasks: PropTypes.object,
+  getParticipants: PropTypes.func,
+  participants: PropTypes.object,
+  startTask: PropTypes.func,
+  stopTask: PropTypes.func,
+  quiz: PropTypes.object,
+  incTimer: PropTypes.func,
+  addPaticipantResult: PropTypes.func,
+  addParticipant: PropTypes.func,
+  removeParticipant: PropTypes.func,
+  clearResults: PropTypes.func,
+  clearResultsOfTask: PropTypes.func,
 };
 
 export default Tasks;

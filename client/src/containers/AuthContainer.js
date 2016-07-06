@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { loginUser } from '../actions/authActions';
-import SignInForm from '../components/SignInForm';
+import { loginUser, signUp } from '../actions/authActions';
+import Auth from '../components/Auth';
 import { withRouter } from 'react-router';
 
 const mapStateToProps = (state) => ({
@@ -12,12 +12,15 @@ const mapDispatchToProps = (dispatch) => (
     signIn: (username, password) => {
       dispatch(loginUser(username, password));
     },
+    signUp: (username, password) => {
+      dispatch(signUp(username, password));
+    },
   }
 );
 
-const SignIn = withRouter(connect(
+const AuthContainer = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignInForm));
+)(Auth));
 
-export default SignIn;
+export default AuthContainer;

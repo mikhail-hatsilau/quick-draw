@@ -1,4 +1,4 @@
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 import { Map, fromJS } from 'immutable';
 
 export default function authReducer(state = Map(), action) {
@@ -17,13 +17,27 @@ export default function authReducer(state = Map(), action) {
         shouldRedirect: false,
       }));
     case constants.SIGNOUT:
-      return state.delete('user').delete('token').set('signedIn', false).set('shouldRedirect', false);
+      return state
+        .delete('user').delete('token').set('signedIn', false).set('shouldRedirect', false);
     case constants.AUTH:
       return state.merge(fromJS({
         user: action.user,
         token: action.token,
         shouldRedirect: false,
         signedIn: true,
+      }));
+    case constants.SIGNUP_SUCCESS:
+      return state.merge(fromJS({
+        user: action.user,
+        token: action.token,
+        signedIn: true,
+        shouldRedirect: true,
+      })).delete('error');
+    case constants.SIGNUP_FAILURE:
+      return state.merge(fromJS({
+        error: action.error,
+        signedIn: false,
+        shouldRedirect: false,
       }));
     default:
       return state;

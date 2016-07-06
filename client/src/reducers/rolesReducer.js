@@ -1,5 +1,5 @@
 import { List, fromJS } from 'immutable';
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 
 export default function roleReducer(state = List(), action) {
   switch (action.type) {

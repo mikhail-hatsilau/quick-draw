@@ -1,4 +1,4 @@
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 import { List, fromJS, Map } from 'immutable';
 
 export default function (state = fromJS({ users: [] }), action) {

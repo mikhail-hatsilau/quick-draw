@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 
 function tasksReducer(state = fromJS({ tasks: [] }), action) {
   let index;

@@ -1,5 +1,5 @@
 import { Map, fromJS, List } from 'immutable';
-import constants from '../src/constants/constants';
+import constants from '../src/constants/actionConstants';
 import tasksReducer from '../src/reducers/tasksReducer';
 import { expect } from 'chai';
 
@@ -18,13 +18,17 @@ describe('Tasks reducer', () => {
         _id: 1,
         name: 'task1',
         code: '<div></div>',
-        answare: '0',
+        deprecatedSelectors: '*',
+        answare: 0,
+        timeLimit: 120,
       },
       {
         _id: 2,
         name: 'task2',
         code: '<div></div>',
-        answare: '0',
+        deprecatedSelectors: '*',
+        answare: 0,
+        timeLimit: 120,
       },
     ];
     const action = {
@@ -43,7 +47,9 @@ describe('Tasks reducer', () => {
         _id: 1,
         name: 'task1',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 0,
+        timeLimit: 120,
       },
     ];
     const state = fromJS({
@@ -55,7 +61,9 @@ describe('Tasks reducer', () => {
         _id: 2,
         name: 'task2',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 1,
+        timeLimit: 120,
       },
     };
     const nextState = tasksReducer(state, action);
@@ -68,13 +76,17 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
         {
           _id: 2,
           name: 'task2',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 1,
+          timeLimit: 120,
         },
       ],
     }));
@@ -85,7 +97,9 @@ describe('Tasks reducer', () => {
         _id: 1,
         name: 'task1',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 1,
+        timeLimit: 120,
       },
     ];
     const state = fromJS({
@@ -98,7 +112,9 @@ describe('Tasks reducer', () => {
         _id: 2,
         name: 'task2',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 0,
+        timeLimit: 120,
       },
     };
     const nextState = tasksReducer(state, action);
@@ -112,13 +128,17 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 1,
+          timeLimit: 120,
         },
         {
           _id: 2,
           name: 'task2',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -130,7 +150,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     });
@@ -145,7 +167,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -155,7 +179,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Add task error',
@@ -168,7 +194,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     });
@@ -183,7 +211,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -198,7 +228,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     });
@@ -213,7 +245,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -223,7 +257,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error occured',
@@ -236,7 +272,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error',
@@ -252,7 +290,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error',
@@ -268,7 +308,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     });
@@ -278,7 +320,9 @@ describe('Tasks reducer', () => {
         _id: 1,
         name: 'renamedTask1',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 2,
+        timeLimit: 120,
       },
     };
     const nextState = tasksReducer(state, action);
@@ -288,7 +332,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -298,7 +344,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'renamedTask1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 2,
+          timeLimit: 120,
         },
       ],
     }));
@@ -310,7 +358,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     });
@@ -325,7 +375,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));
@@ -335,7 +387,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error',
@@ -348,7 +402,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error',
@@ -359,7 +415,9 @@ describe('Tasks reducer', () => {
         _id: 1,
         name: 'renamedTask1',
         code: '<div></div>',
+        deprecatedSelectors: '*',
         answare: 0,
+        timeLimit: 120,
       },
     };
     const nextState = tasksReducer(state, action);
@@ -369,7 +427,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'task1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
       error: 'Error',
@@ -380,7 +440,9 @@ describe('Tasks reducer', () => {
           _id: 1,
           name: 'renamedTask1',
           code: '<div></div>',
+          deprecatedSelectors: '*',
           answare: 0,
+          timeLimit: 120,
         },
       ],
     }));

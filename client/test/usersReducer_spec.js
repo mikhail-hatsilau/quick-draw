@@ -1,5 +1,5 @@
 import { Map, fromJS, List } from 'immutable';
-import constants from '../src/constants/constants';
+import constants from '../src/constants/actionConstants';
 import usersReducer from '../src/reducers/usersReducer';
 import { expect } from 'chai';
 

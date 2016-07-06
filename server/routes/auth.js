@@ -30,9 +30,54 @@ export function signin(req, resp, next) {
         success: true,
         jwt: token,
         user: {
+          id: user.id,
           username: user.username,
           role: user.role,
         },
       });
     });
+}
+
+export function signup(req, resp, next) {
+  const username = req.body.username;
+  const password = req.body.password;
+  User.findOne({ username }, (err, user) => {
+    if (err) {
+      throw new Error(err);
+    }
+    if (user) {
+      resp.status(403);
+      resp.json({
+        success: false,
+        message: 'Username is already used',
+      });
+      return;
+    }
+    
+    Role.findOne({ name: 'participant' }, (err, role) => {
+      if (err) {
+        throw new Error(err);
+      }
+      const newUser = new User({
+        username,
+        password,
+        role: role.id,
+      });
+      newUser.save((err, saveUser) => {
+        if (err) {
+          throw new Error(err);
+        }
+        const token = jwt.encode(saveUser, config.jwtSecret);
+        resp.json({
+          success: true,
+          jwt: token,
+          user: {
+            id: saveUser.id,
+            username: saveUser.username,
+            role,
+          },
+        });
+      });
+    });
+  });
 }

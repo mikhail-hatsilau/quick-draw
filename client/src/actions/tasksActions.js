@@ -1,4 +1,4 @@
-import constants from '../constants/constants';
+import constants from '../constants/actionConstants';
 import fetch from 'isomorphic-fetch';
 
 function getTasksRequest() {
@@ -80,7 +80,9 @@ export function addTask(task, token) {
       body: JSON.stringify({
         name: task.name,
         code: task.code,
+        deprecatedSelectors: task.deprecatedSelectors,
         answare: task.answare,
+        timeLimit: +task.timeLimit,
       }),
     };
     dispatch(addTaskRequest());
@@ -192,5 +194,26 @@ export function updateTask(id, taskModel, token) {
       .catch(error => {
         console.log(error);
       });
+  };
+}
+
+export function startTask(task) {
+  return {
+    type: constants.START_TASK,
+    task,
+    timeSpent: 0,
+  };
+}
+
+export function stopTask() {
+  return {
+    type: constants.STOP_TASK,
+  };
+}
+
+export function incTimer(time) {
+  return {
+    type: constants.INC_TIMER_ADMIN,
+    time,
   };
 }

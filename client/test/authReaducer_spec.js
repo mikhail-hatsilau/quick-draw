@@ -1,7 +1,7 @@
 import authReducer from '../src/reducers/authReducer';
 import { expect } from 'chai';
 import { Map, fromJS } from 'immutable';
-import constants from '../src/constants/constants';
+import constants from '../src/constants/actionConstants';
 
 describe('Auth reducer', () => {
   it('should has initial state', () => {
@@ -39,7 +39,7 @@ describe('Auth reducer', () => {
       token,
     }));
   });
-  it('should add error to the state if request is fall', () => {
+  it('should add error to the state if signin request is fall', () => {
     const state = Map();
     const errorMessage = 'Wrong password';
     const action = {
@@ -125,7 +125,7 @@ describe('Auth reducer', () => {
       shouldRedirect: false,
     }));
   });
-  it('should add token and user to state if token exists', () => {
+  it('should add token and user to state if they are exist', () => {
     const TEST_TOKEN = 'abcTest';
     const state = Map();
     const action = {
@@ -152,6 +152,87 @@ describe('Auth reducer', () => {
       shouldRedirect: false,
       token: TEST_TOKEN,
       signedIn: true,
+    }));
+  });
+  it('should has a user and token after sign up response', () => {
+    const token = 'abc123';
+    const state = Map();
+    const action = {
+      type: constants.SIGNUP_SUCCESS,
+      user: {
+        username: 'test',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+      token,
+    };
+    const nextState = authReducer(state, action);
+    expect(state).to.equal(Map());
+    expect(nextState).to.equal(fromJS({
+      user: {
+        username: 'test',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+      signedIn: true,
+      shouldRedirect: true,
+      token,
+    }));
+  });
+  it('should add error to the state if signup request is fall', () => {
+    const state = Map();
+    const errorMessage = 'Wrong password';
+    const action = {
+      type: constants.SIGNUP_FAILURE,
+      error: errorMessage,
+    }
+    const nextState = authReducer(state, action);
+    expect(state).to.equal(Map());
+    expect(nextState).to.equal(fromJS({
+      error: errorMessage,
+      signedIn: false,
+      shouldRedirect: false,
+    }));
+  });
+  it('should remove error and add user information if signup is successfull', () => {
+    const testToken = 'testToken';
+    const state = fromJS({
+      error: 'Validation error',
+      signedIn: false,
+      shouldRedirect: false,
+    });
+    const action = {
+      type: constants.SIGNUP_SUCCESS,
+      user: {
+        username: 'test',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+      token: testToken,
+    };
+    const nextState = authReducer(state, action);
+    expect(state).to.equal(fromJS({
+      error: 'Validation error',
+      signedIn: false,
+      shouldRedirect: false,
+    }));
+    expect(nextState).to.equal(fromJS({
+      user: {
+        username: 'test',
+        role: {
+          id: 2,
+          name: 'participant',
+        },
+      },
+      token: testToken,
+      signedIn: true,
+      shouldRedirect: true,
     }));
   });
 });

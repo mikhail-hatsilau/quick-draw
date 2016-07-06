@@ -16,10 +16,14 @@ export function addTask(req, resp, next) {
   const name = req.body.name;
   const code = req.body.code;
   const answare = req.body.answare;
+  const timeLimit = req.body.timeLimit;
+  const deprecatedSelectors = req.body.deprecatedSelectors;
   const task = new Task({
     name,
     code,
+    deprecatedSelectors,
     answare,
+    timeLimit,
   });
   task.save((err, savedTask) => {
     if (err) {
@@ -47,10 +51,14 @@ export function updateTask(req, resp, next) {
   const name = req.body.name;
   const code = req.body.code;
   const answare = req.body.answare;
+  const timeLimit = req.body.timeLimit;
+  const deprecatedSelectors = req.body.deprecatedSelectors;
   const valuesForUpdate = {
     name,
     code,
     answare,
+    timeLimit,
+    deprecatedSelectors,
   };
   Task.findById(taskId, (err, task) => {
     if (err) {
@@ -73,7 +81,9 @@ export function updateTask(req, resp, next) {
           _id: task.id,
           name,
           code,
+          deprecatedSelectors,
           answare,
+          timeLimit,
         },
       });
     });

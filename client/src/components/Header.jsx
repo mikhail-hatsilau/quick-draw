@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Navigation from './Navigation';
 import SignOut from './SignOut';
+import constants from '../constants/constants';
 
 class Header extends React.Component {
   constructor(props) {
@@ -10,14 +11,14 @@ class Header extends React.Component {
   signout(event) {
     event.preventDefault();
     this.props.signout();
-    this.props.router.replace('/signin');
+    this.props.router.replace('/auth/signin');
   }
   render() {
     let singOutBlock = null;
     let nav = null;
     if (this.props.auth.get('signedIn')) {
       singOutBlock = <SignOut user={this.props.auth.get('user')} signout={this.signout} />;
-      if (this.props.auth.get('user').get('role').get('name') === 'admin') {
+      if (this.props.auth.get('user').get('role').get('name') === constants.ADMIN_ROLE) {
         nav = <Navigation />;
       }
     }

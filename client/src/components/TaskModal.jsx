@@ -27,11 +27,28 @@ class AddTaskModal extends React.Component {
               value={this.props.task && this.props.task.get('code')}
             />
             <Input
-              type="number"
+              type="text"
+              name="deprecatedSelectors"
+              label="Deprecated selectors"
+              validators={['deprecatedSelectorsValidation']}
+              placeholder=":,*"
+              value={this.props.task && this.props.task.get('deprecatedSelectors')}
+            />
+            <Input
+              type="text"
               name="answare"
-              validators={['required']}
+              validators={['required', 'answareslistValidation']}
               label="Answare row"
+              placeholder="0,1"
               value={this.props.task && this.props.task.get('answare')}
+            />
+            <Input
+              type="text"
+              name="timeLimit"
+              validators={['required', 'timeValidation']}
+              label="Time limit (seconds)"
+              placeholder="120"
+              value={this.props.task && this.props.task.get('timeLimit')}
             />
             <button>{this.props.editMode ? 'Save' : 'Add'}</button>
           </Form>

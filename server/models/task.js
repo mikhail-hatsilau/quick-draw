@@ -10,7 +10,12 @@ const taskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  deprecatedSelectors: String,
   answare: {
+    type: String,
+    required: true,
+  },
+  timeLimit: {
     type: String,
     required: true,
   },
