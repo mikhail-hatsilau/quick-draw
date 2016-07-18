@@ -59,7 +59,10 @@ export default function (state = fromJS({ participants: [] }), action) {
         participants.map(participant => (
           participant.update('tasksResults', tasksResults => {
             const index = tasksResults.findIndex(result => result.get('task') === action.taskId);
-            return tasksResults.splice(index, 1);
+            if (index !== -1) {
+              return tasksResults.splice(index, 1);
+            }
+            return tasksResults;
           })
         ))
       ));
