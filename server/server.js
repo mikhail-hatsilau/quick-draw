@@ -13,8 +13,8 @@ const server = http.Server(app);
 const io = socket(server);
 
 mongoose.connect(config.databaseUri);
-server.listen(3000, () => {
-  console.log('Server started at port 3000');
+server.listen(3003, () => {
+  console.log('Server started at port 3003');
 });
 
 app.use(express.static('public'));

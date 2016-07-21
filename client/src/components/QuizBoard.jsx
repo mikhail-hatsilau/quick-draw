@@ -6,6 +6,13 @@ import constants from '../constants/constants';
 const socket = io(constants.SOCKET_HOST);
 
 class QuizBoard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      highlight: false,
+      userId: null,
+    };
+  }
   componentDidMount() {
     this.props.getParticipants(this.props.auth.get('token'));
     socket.emit('join admin', {
@@ -18,7 +25,11 @@ class QuizBoard extends React.Component {
       this.props.addParticipant(user);
     });
     socket.on('participant passed test', data => {
-      this.props.addPaticipantResult(data.userId, data.result);
+      this.props.addParticipantResult(data.userId, data.result);
+      this.props.highlightParticipant(data.userId);
+      setTimeout(() => {
+        this.props.unhighlightParticipant(data.userId);
+      }, 2000);
     });
     socket.on('quiz participant left', participant => {
       this.props.removeParticipant(participant);
@@ -53,7 +64,7 @@ QuizBoard.propTypes = {
   quiz: PropTypes.object,
   getParticipants: PropTypes.func,
   addParticipant: PropTypes.func,
-  addPaticipantResult: PropTypes.func,
+  addParticipantResult: PropTypes.func,
   auth: PropTypes.object,
   removeParticipant: PropTypes.func,
   startTask: PropTypes.func,
@@ -61,6 +72,8 @@ QuizBoard.propTypes = {
   incTimer: PropTypes.func,
   clearResults: PropTypes.func,
   clearResultsOfTask: PropTypes.func,
+  highlightParticipant: PropTypes.func,
+  unhighlightParticipant: PropTypes.func,
 };
 
 export default QuizBoard;

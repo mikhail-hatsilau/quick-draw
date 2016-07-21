@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
   context: path.resolve(__dirname, './client/src'),
   entry: [
-    'webpack-dev-server/client?http://localhost:8080/',
+    'webpack-dev-server/client?http://localhost:3000/',
     'webpack/hot/only-dev-server',
     './app',
   ],
@@ -51,7 +51,7 @@ module.exports = {
     hot: true,
     inline: true,
     proxy: {
-      '*': 'http://localhost:3000',
+      '*': 'http://localhost:3003',
     },
   },
 };

@@ -66,6 +66,18 @@ export default function (state = fromJS({ participants: [] }), action) {
           })
         ))
       ));
+    case constants.HIGHLIGHT_PARTICIPANT:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.get('user').get('_id') === action.userId ? participant.set('highlighted', true) : participant
+        ))
+      ));
+    case constants.UNHIGHLIGHT_PARTICIPANT:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.get('user').get('_id') === action.userId ? participant.delete('highlighted') : participant
+        ))
+      ));
     default:
       return state;
   }

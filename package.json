@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha ./client/test/*.js --compilers js:babel-register --reporter spec --require ./client/test/testHelper.js  --recursive",
-    "start-client": "webpack && webpack-dev-server --progress --color",
+    "start-client": "webpack && webpack-dev-server --port 3000 --host 0.0.0.0 --progress --color",
     "start-server": "babel-node ./server/server.js"
   },
   "repository": {

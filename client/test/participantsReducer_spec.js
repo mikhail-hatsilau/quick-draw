@@ -613,4 +613,195 @@ describe('Participants reducer', () => {
       }],
     }));
   });
+  it('should set highlight to true when user passed a task', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.HIGHLIGHT_PARTICIPANT,
+      userId: 2,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+        highlighted: true,
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+  });
+  it('should remove highlight property', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+        highlighted: true,
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.UNHIGHLIGHT_PARTICIPANT,
+      userId: 2,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+        highlighted: true,
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+  });
 });
