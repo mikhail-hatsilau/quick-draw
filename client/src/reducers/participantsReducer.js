@@ -59,8 +59,23 @@ export default function (state = fromJS({ participants: [] }), action) {
         participants.map(participant => (
           participant.update('tasksResults', tasksResults => {
             const index = tasksResults.findIndex(result => result.get('task') === action.taskId);
-            return tasksResults.splice(index, 1);
+            if (index !== -1) {
+              return tasksResults.splice(index, 1);
+            }
+            return tasksResults;
           })
+        ))
+      ));
+    case constants.HIGHLIGHT_PARTICIPANT:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.get('user').get('_id') === action.userId ? participant.set('highlighted', true) : participant
+        ))
+      ));
+    case constants.UNHIGHLIGHT_PARTICIPANT:
+      return state.update('participants', participants => (
+        participants.map(participant => (
+          participant.get('user').get('_id') === action.userId ? participant.delete('highlighted') : participant
         ))
       ));
     default:

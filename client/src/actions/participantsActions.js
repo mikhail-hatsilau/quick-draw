@@ -82,3 +82,19 @@ export function clearResultsOfTask(id) {
     taskId: id,
   };
 }
+
+export function highlightParticipant(id) {
+  return {
+    type: constants.HIGHLIGHT_PARTICIPANT,
+    userId: id,
+  };
+}
+
+export function unhighlightParticipant(id) {
+  return {
+    type: constants.UNHIGHLIGHT_PARTICIPANT,
+    userId: id,
+  };
+}
+
+
