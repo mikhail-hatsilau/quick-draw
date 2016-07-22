@@ -99,7 +99,7 @@ class Form extends React.Component {
     this.setSubmittedState();
     const model = this.getModel();
     if (formIsValid) {
-      this.resetForm();
+      // this.resetForm();
       this.props.validSubmit(model);
     } else {
       console.log('Form is not valid');
@@ -108,7 +108,7 @@ class Form extends React.Component {
   render() {
     return (
       <form onSubmit={this.submitForm}>
-        {this.props.serverError ? <div>{this.props.serverError}</div> : null}
+        {this.props.serverError ? <div className="error">{this.props.serverError}</div> : null}
         {this.props.children}
       </form>
     );

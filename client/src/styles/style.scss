@@ -1,7 +1,194 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
+
 $table-border-color: gray;
+$header-height: 60px;
+$background-color: #E4E4E4;
+$border-color: #CCC;
+$gray-color: #576061;
+$medium-gray-color: #666666;
+$dark-green-color: #7F993A;
+$lime-green-color: #A3C644;
+$warning-color: #B22746;
+
+$font-family-oswald: 'Oswald', helvetica, sans-serif, arial;
+$font-family-source-sans-pro: 'Source Sans Pro', helvetica, sans-serif, arial;
+$roboto-font-family: 'Roboto', helvetica, sans-serif, arial;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: $background-color;
+  font-family: $font-family-oswald;
+  font-size: 14px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main.auth {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: url("../images/background.png") no-repeat center center fixed;
+  background-size: cover;
+
+  .content {
+    display: flex;
+    flex-grow: 1;
+
+    .auth-block {
+      margin: auto;
+      background: rgba(255, 255, 255, 0.9);
+
+      input {
+        width: 100%;
+        display: inline-block;
+        height: 34px;
+        padding: 5px;
+        border: 1px solid $border-color;
+      }
+
+      .form-element {
+        width: 250px;
+        margin: 15px 0;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      input[type="submit"] {
+        background: $dark-green-color;
+        color: white;
+        font-family: $font-family-source-sans-pro;
+        border: none;
+        padding: 0;
+        display: inline-block;
+        height: 34px;
+        font-size: 16px;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+          background: $lime-green-color;
+        }
+      }
+
+      .auth-block-header {
+        border-bottom: 1px solid $border-color;
+        padding: 15px;
+        font-family: $font-family-source-sans-pro;
+        font-size: 16px;
+        color: $medium-gray-color;
+      }
+
+      .auth-block-content {
+        padding: 15px;
+
+        .register-offer {
+          margin-top: 15px;
+          font-family: $font-family-source-sans-pro;
+          color: $gray-color;
+
+          a {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.header-links {
+  display: inline-block;
+  line-height: $header-height;
+  height: 100%;
+  text-align: center;
+  color: black;
+  font-family: $font-family-oswald;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.header {
+  height: 60px;
+  background-color: white;
+  display: flex;
+
+  .logo {
+    height: 100%;
+    font-size: 18px;
+    
+    a {
+      @extend .header-links;
+      text-transform: uppercase;
+    }
+  }
+
+  ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      a {
+        @extend .header-links;
+        text-transform: uppercase;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .signout.right {
+    margin-left: auto;
+  }
+
+  .signout {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+
+    a {
+      @extend .header-links;
+      text-transform: uppercase;
+      margin-left: 20px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  ul, li {
+    height: 100%;
+  }
+}
 
 .required-error {
   border: 1px solid red;
+}
+
+.error {
+  color: $warning-color;
+  font-family: $font-family-source-sans-pro;
+
 }
 
 .layer {
@@ -227,4 +414,22 @@ $table-border-color: gray;
 
 .highlighted {
   background-color: #99ff66;
+}
+
+.quiz-ready {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 450px;
+    display: inline-block;
+    margin: 60px 0 30px;
+  }
+
+  span {
+    font-size: 28px;
+    font-family: $font-family-source-sans-pro;
+  }
 }
