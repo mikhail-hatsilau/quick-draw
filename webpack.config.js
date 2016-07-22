@@ -1,4 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -37,8 +38,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract('css!sass'),
       },
       {
-        test: /\.html$/,
-        loader: 'file-loader?name=index.html',
+        test: /\.(html|jpg|png)$/,
+        loader: 'file-loader?name=[path][name].[ext]',
       },
     ],
   },
@@ -46,6 +47,10 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
+    new CopyWebpackPlugin([{
+      from: './images/cowboy.png',
+      to: 'images',
+    }]),
   ],
   devServer: {
     hot: true,

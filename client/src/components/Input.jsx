@@ -20,13 +20,6 @@ class Input extends React.Component {
       index,
     });
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.value !== this.props.value) {
-  //     this.setState({
-  //       value: nextProps.value,
-  //     });
-  //   }
-  // }
   componentWillUnmount() {
     this.context.detachComponent(this.state.index);
   }
@@ -46,7 +39,7 @@ class Input extends React.Component {
   }
   render() {
     const errors = this.state.errors.map(error => (
-      <div>{error}</div>
+      <div className="error">{error}</div>
     ));
     return (
       <div className="form-element">
@@ -60,7 +53,7 @@ class Input extends React.Component {
           placeholder={this.props.placeholder}
           />
         {!this.state.isValid && this.state.submitted ?
-          <div>{errors}</div> :
+          <div className="errors">{errors}</div> :
           null
         }
       </div>

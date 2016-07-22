@@ -24,31 +24,36 @@ class Auth extends React.Component {
   render() {
     return (
       <div className="auth-block">
-        <Form validSubmit={this.handleSubmit} serverError={this.props.auth.get('error')}>
-          <Input
-            name="username"
-            label="Username"
-            validators={['required']}
-            type="text"
-          />
-          <Input
-            name="password"
-            label="Password"
-            validators={['required']}
-            type="password"
-          />
-          <input
-            type="submit"
-            value={this.props.params.action === constants.AUTH_SIGNIN_PARAM ? 'Sign in' : 'Sign up'}
-          />
-        </Form>
-        {this.props.params.action === constants.AUTH_SIGNIN_PARAM ?
-          <div>
-            Don't have an account?
-            <Link to="/auth/signup">Sign up now</Link>
-          </div> :
-          null
-        }
+        <div className="auth-block-header">
+          {this.props.params.action === constants.AUTH_SIGNIN_PARAM ? 'Sign in' : 'Sign up'}
+        </div>
+        <div className="auth-block-content">
+          <Form validSubmit={this.handleSubmit} serverError={this.props.auth.get('error')}>
+            <Input
+              name="username"
+              validators={['required']}
+              placeholder="Username"
+              type="text"
+            />
+            <Input
+              name="password"
+              placeholder="Password"
+              validators={['required']}
+              type="password"
+            />
+            <input
+              type="submit"
+              value={this.props.params.action === constants.AUTH_SIGNIN_PARAM ? 'Sign in' : 'Sign up'}
+            />
+          </Form>
+          {this.props.params.action === constants.AUTH_SIGNIN_PARAM ?
+            <div className="register-offer">
+              Don't have an account?
+              <Link to="/auth/signup">Sign up now</Link>
+            </div> :
+            null
+          }
+        </div>
       </div>
     );
   }

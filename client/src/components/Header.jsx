@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Navigation from './Navigation';
 import SignOut from './SignOut';
 import constants from '../constants/constants';
+import { Link } from 'react-router';
 
 class Header extends React.Component {
   constructor(props) {
@@ -24,7 +25,9 @@ class Header extends React.Component {
     }
     return (
       <div className="header">
-        <div className="logo">CSS Quick Draw</div>
+        <div className="logo">
+          <Link to="/">CSS Quick Draw</Link>
+        </div>
         {nav}
         {singOutBlock}
       </div>
