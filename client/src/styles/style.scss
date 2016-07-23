@@ -544,6 +544,12 @@ body {
     width: 100%;
     border-collapse: collapse;
 
+    tbody {
+      tr:nth-child(2n+1) {
+        background: #F7F7F7;
+      }
+    }
+
     td {
       font-family: $font-family-source-sans-pro;
     }
