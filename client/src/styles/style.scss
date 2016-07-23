@@ -11,6 +11,7 @@ $medium-gray-color: #666666;
 $dark-green-color: #7F993A;
 $lime-green-color: #A3C644;
 $warning-color: #B22746;
+$raspberry-color: #B22746;
 
 $font-family-oswald: 'Oswald', helvetica, sans-serif, arial;
 $font-family-source-sans-pro: 'Source Sans Pro', helvetica, sans-serif, arial;
@@ -36,6 +37,10 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+}
+
+.content {
+  padding: 0 20px;
 }
 
 .main.auth {
@@ -253,8 +258,7 @@ body {
       th {
         >div:first-child {
           flex-direction: column;
-          justify-content: stretch;
-          width: 300px;
+          width: 325px;
           
           .task-name {
             flex: 3 3 auto;
@@ -363,44 +367,64 @@ body {
 }
 
 .code-of-task {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid $border-color;
+  display: inline-block;
+  background: white;
+
+  table {
+    font-family: "Lucida Console", monospace;
+    font-size: 16px;
+
+    .code-row-number {
+      padding-right: 10px;
+      color: #b5b3b3;
+    }
+
+    .code {
+      padding-left: 10px;
+    }
+  }
+
   .tag {
-    color: orangered;
+    color: #FF517C;
   }
   .attr {
-    color: green;
+    color: #8DAE52;
   }
   .attr-value {
-    color: pink;
+    color: #DCAD3A;
   }
   
   .circle {
     content: '';
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
   }
   
   .element-needed {
     &:after {
       @extend .circle;
-      background: white;
+      background: transparent;
       box-sizing: border-box;
-      border: 3px solid green;
+      border: 3px solid #26BF26;
     }
   }
   
   .wrong-element-chosen {
     &:after {
       @extend .circle;
-      background: red;
+      background: #FF5E5E;
     }
   }
   
   .needed-element-chosen {
     &:after {
       @extend .circle;
-      background: green;
+      background: #26BF26;
     }
   }
 }
@@ -410,6 +434,11 @@ body {
     border: red;
     background: pink;
   }
+}
+
+.participant-row {
+  background-color: white;
+  transition: background-color 0.5s ease-out 0.1s;
 }
 
 .highlighted {
@@ -431,5 +460,108 @@ body {
   span {
     font-size: 28px;
     font-family: $font-family-source-sans-pro;
+  }
+}
+
+.time-section {
+  display: flex;
+  height: 34px;
+  align-items: stretch;
+  margin-top: 20px;
+
+  >div {
+    line-height: 34px;
+    padding: 0 15px;
+    color: white;
+    text-transform: uppercase;
+  } 
+
+  .deprecated-selectors {
+    background: $raspberry-color;
+  }
+
+  .timer {
+    margin-right: 20px;
+    width: 60px;
+    text-align: center;
+    background: $dark-green-color;
+  }
+}
+
+.answare-section {
+  input {
+    border: 1px solid $border-color;
+    height: 30px;
+    display: inline-block;
+    padding: 0 5px;
+    width: 250px;
+  }
+
+  .error {
+    margin-left: 10px;
+  }
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 800px;
+  background: white;
+  margin-top: 30px;
+  border: 1px solid $border-color;
+
+  .common-info {
+    display: flex;
+    border-bottom: 1px solid $border-color;
+    height: 40px;
+    align-items: center;
+    width: 100%;
+    font-family: $font-family-source-sans-pro;
+    font-size: 16px;
+    padding: 0 20px;
+  }
+
+  .current-task {
+    margin-right: 20px;
+
+    span {
+      margin-left: 10px;
+    }
+  }
+
+  .time-spent {
+    display: flex;
+
+    .timer {
+      margin-left: 10px;
+    }
+  }
+
+  .participants {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+      font-family: $font-family-source-sans-pro;
+    }
+
+    td:first-child, th:first-child {
+      padding-left: 20px;
+    }
+
+    td:last-child, th:last-child {
+      padding-right: 20px;
+    }
+
+    th, td {
+      padding: 10px 0;
+    }
+
+    th {
+      text-align: left;
+      text-transform: uppercase;
+    }
   }
 }

@@ -10,7 +10,7 @@ function Timer(props) {
   }
   const convertedTime = <span>{convertTime(props.children)}</span>;
   return (
-    <div>
+    <div className="timer">
       {convertedTime}
     </div>
   );

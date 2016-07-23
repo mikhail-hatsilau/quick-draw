@@ -1,5 +1,6 @@
 import User from '../models/user';
 import Role from '../models/role';
+import Participant from '../models/participant';
 
 export function getAllUsers(req, resp, next) {
   User.find({})
@@ -62,6 +63,12 @@ export function removeUser(req, resp, next) {
     if (err) {
       throw new Error(err);
     }
+
+    Participant.remove({ user: userId }, (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });    
     resp.json({ success: true });
   });
 }

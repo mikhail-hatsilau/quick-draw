@@ -25,6 +25,7 @@ class TasksTable extends React.Component {
           clearResultsOfTask={this.props.clearResultsOfTask}
           disabledStartButton={disabledStartButton}
           disabledStopButton={disabledStopButton}
+          sort={this.props.sort}
         />
       );
     });
@@ -41,7 +42,7 @@ class TasksTable extends React.Component {
           <thead>
             <tr>
               {tasks}
-              <th>Total time</th>
+              <th>Total time <button onClick={() => this.props.sort()}>Sort</button></th>
             </tr>
           </thead>
           <tbody>
@@ -63,6 +64,7 @@ TasksTable.propTypes = {
   clearResultsOfTask: PropTypes.func,
   taskInProgress: PropTypes.object,
   isTaskInProgress: PropTypes.bool,
+  sort: PropTypes.func,
 };
 
 export default TasksTable;

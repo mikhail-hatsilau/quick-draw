@@ -26,7 +26,9 @@ class AnswareSection extends React.Component {
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
+          placeholder="Answare"
         />
+        {this.props.deprecatedError && <span className="error">You used deprecated symbol!</span>}
       </div>
     );
   }

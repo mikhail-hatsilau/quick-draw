@@ -49,7 +49,7 @@ class CodeRow extends React.Component {
       <tr>
         <td className="code-row-number">{this.props.lineNumber}</td>
         <td className={className}></td>
-        <td dangerouslySetInnerHTML={{ __html: this.getStyledRow() }} ></td>
+        <td className="code" dangerouslySetInnerHTML={{ __html: this.getStyledRow() }} ></td>
       </tr>
     );
   }

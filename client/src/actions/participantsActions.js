@@ -97,4 +97,15 @@ export function unhighlightParticipant(id) {
   };
 }
 
+export function removeAllParticipants() {
+  return {
+    type: constants.REMOVE_ALL_PARTICIPANTS,
+  }
+}
 
+export function sort(taskId) {
+  return {
+    type: constants.SORT,
+    taskId
+  }
+}

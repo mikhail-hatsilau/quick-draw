@@ -41,7 +41,8 @@ class TasksTableHeader extends React.Component {
           </div>
         </div>
         <div className="task-controls">
-          <button tpye="button" onClick={this.clearResultsOfTask} disabled={this.props.disabledStartButton}>Clear results</button>
+          <button type="button" onClick={() => this.props.sort(this.props.task.get('_id'))}>Sort</button>
+          <button type="button" onClick={this.clearResultsOfTask} disabled={this.props.disabledStartButton}>Clear results</button>
           <button type="button" onClick={this.editTask} disabled={this.props.disabledStartButton}>Edit</button>
           <button type="button" onClick={this.deleteTask} disabled={this.props.disabledStartButton}>Remove</button>
           <button type="button" onClick={this.startTask} disabled={this.props.disabledStartButton}>Start</button>
@@ -61,6 +62,7 @@ TasksTableHeader.propTypes = {
   disabledStartButton: PropTypes.bool,
   disabledStopButton: PropTypes.bool,
   clearResultsOfTask: PropTypes.func,
+  sort: PropTypes.func,
 };
 
 export default TasksTableHeader;

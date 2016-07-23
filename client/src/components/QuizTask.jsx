@@ -27,7 +27,7 @@ class QuizTask extends React.Component {
     let codeLines = code.split('\n');
     codeLines = codeLines.map((line, index) => {
       const closeTagMatch = line.match(/<\/[a-zA-Z]+>/);
-      if (closeTagMatch && line === closeTagMatch[0]) {
+      if (closeTagMatch && line.trim() === closeTagMatch[0]) {
         return line;
       }
       const matchResult = line.match(/<[a-zA-Z]+/);
@@ -63,7 +63,6 @@ class QuizTask extends React.Component {
     this.checkDeprecatedSelectors(selector);
     try {
       const queryResults = this.state.codeDomObject.querySelectorAll(selector);
-      console.log(queryResults);
       const currentAnswares = [];
       for (let i = 0, l = queryResults.length; i < l; i++) {
         currentAnswares.push(queryResults[i].getAttribute('data-line'));

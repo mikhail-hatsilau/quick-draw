@@ -23,6 +23,7 @@ class Tasks extends React.Component {
     this.editTask = this.editTask.bind(this);
     this.startTask = this.startTask.bind(this);
     this.stopTask = this.stopTask.bind(this);
+    this.removeAllParticipants = this.removeAllParticipants.bind(this);
   }
   componentDidMount() {
     const token = this.props.auth.get('token');
@@ -51,6 +52,9 @@ class Tasks extends React.Component {
     });
     socket.on('results of task were cleared', taskId => {
       this.props.clearResultsOfTask(taskId);
+    });
+    socket.on('participants were removed', () => {
+      this.props.removeAllParticipants();
     });
   }
   componentWillUnmount() {
@@ -104,6 +108,9 @@ class Tasks extends React.Component {
   clearResultsOfTask(task) {
     socket.emit('clear results of task', task);
   }
+  removeAllParticipants() {
+    socket.emit('remove all participants');
+  }
   render() {
     return (
       <div>
@@ -116,6 +123,7 @@ class Tasks extends React.Component {
           null
         }
         <button onClick={this.clearResults}>Clear results</button>
+        <button onClick={this.removeAllParticipants}>Remove participants</button>
         <div className="tasks-table">
           <ParticipantTable
             tasks={this.props.tasks}
@@ -131,6 +139,7 @@ class Tasks extends React.Component {
             participants={this.props.participants.get('participants')}
             isTaskInProgress={this.props.quiz.get('taskInProgress')}
             taskInProgress={this.props.quiz.get('currentTask')}
+            sort={this.props.sort}
           />
         </div>
         {this.state.showTaskModal ?

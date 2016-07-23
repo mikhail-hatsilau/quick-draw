@@ -1,7 +1,13 @@
 import React, { PropTypes } from 'react';
 import Timer from './Timer';
+import classNames from 'classnames';
 
 class QuizBoardParticipantRow extends React.Component {
+  getTotalTime(participant) {
+    return participant.get('tasksResults').reduce((sum, result) => (
+      sum += +result.get('time')
+    ), 0);
+  }
   render() {
     let currentTaskResults = null;
     if (this.props.currentTask) {
@@ -9,15 +15,19 @@ class QuizBoardParticipantRow extends React.Component {
         result.get('task') === this.props.currentTask.get('_id')
       ));
     }
+    const classes = classNames('participant-row', {
+      highlighted: this.props.highlight,
+    });
     return (
-      <tr className={this.props.highlight && 'highlighted'}>
+      <tr className={classes}>
         <td>{this.props.participant.get('user').get('username')}</td>
         <td>{currentTaskResults && <Timer>{currentTaskResults.get('time')}</Timer>}</td>
         <td>{currentTaskResults && currentTaskResults.get('selector').length}</td>
         {this.props.showSelector ?
-          <td>{currentTaskResults && currentTaskResults.get('selector')}</td> :
+          <td>{currentTaskResults && currentTaskResults.get('selector') || '--'}</td> :
           null
         }
+        <td><Timer>{this.getTotalTime(this.props.participant)}</Timer></td>
       </tr>
     );
   }

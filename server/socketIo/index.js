@@ -1,29 +1,37 @@
 import Participant from '../models/participant';
+import User from '../models/user';
 
 function saveJoinedUser(data, callback) {
-  Participant.findOne({ user: data.user.id }, (err, user) => {
+  User.findById(data.user.id, (err, user) => {
     if (err) {
       throw new Error(err);
     }
-    if (!user) {
-      const participant = new Participant({
-        user: data.user.id,
-        tasksResults: [],
-      });
-      participant.save((err, savedParticipant) => {
+    if (user) {
+      Participant.findOne({ user: data.user.id }, (err, user) => {
         if (err) {
           throw new Error(err);
         }
-        const options = {
-          path: 'user',
-          select: '_id username',
-        };
-        Participant.populate(savedParticipant, options, (err, savedParticipant) => {
-          if (err) {
-            throw new Error(err);
-          }
-          callback(savedParticipant);
-        });
+        if (!user) {
+          const participant = new Participant({
+            user: data.user.id,
+            tasksResults: [],
+          });
+          participant.save((err, savedParticipant) => {
+            if (err) {
+              throw new Error(err);
+            }
+            const options = {
+              path: 'user',
+              select: '_id username',
+            };
+            Participant.populate(savedParticipant, options, (err, savedParticipant) => {
+              if (err) {
+                throw new Error(err);
+              }
+              callback(savedParticipant);
+            });
+          });
+        }
       });
     }
   });
@@ -86,12 +94,21 @@ function clearResultsOfTask(task, callback) {
   });
 }
 
+function removeAllParticipants(callback) {
+  Participant.remove({}, (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+    callback();
+  });
+}
+
 export default function (io) {
   let interval;
   io.on('connection', socket => {
     socket.on('join participant', data => {
-      socket.join('participants');
       saveJoinedUser(data, participant => {
+        socket.join('participants');
         io.to('admins').emit('participant joined', participant);
       });
     });
@@ -144,9 +161,9 @@ export default function (io) {
     });
     socket.on('participant left', participant => {
       socket.leave('participants');
-      removeParticipant(participant, () => {
-        io.to('admins').emit('quiz participant left', participant);
-      });
+      // removeParticipant(participant, () => {
+      //   io.to('admins').emit('quiz participant left', participant);
+      // });
     });
     socket.on('clear results', () => {
       clearParticipantsResults(() => {
@@ -158,5 +175,10 @@ export default function (io) {
         io.to('admins').emit('results of task were cleared', task['_id']);
       });
     });
+    socket.on('remove all participants', () => {
+      removeAllParticipants(() => {
+        io.to('admins').emit('participants were removed');
+      });
+    })
   });
 }

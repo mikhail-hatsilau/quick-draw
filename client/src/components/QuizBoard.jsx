@@ -46,6 +46,9 @@ class QuizBoard extends React.Component {
     socket.on('results of task were cleared', taskId => {
       this.props.clearResultsOfTask(taskId);
     });
+    socket.on('participants were removed', () => {
+      this.props.removeAllParticipants();
+    });
   }
   render() {
     return (

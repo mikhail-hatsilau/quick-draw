@@ -6,7 +6,8 @@ import {
   addParticipant, removeParticipant,
   clearResults, clearResultsOfTask,
   highlightParticipant,
-  unhighlightParticipant } from '../actions/participantsActions';
+  unhighlightParticipant,
+  removeAllParticipants } from '../actions/participantsActions';
 import { startTask, stopTask } from '../actions/tasksActions';
 import { incTimer } from '../actions/quizActions';
 
@@ -52,6 +53,9 @@ function mapDispatchToProps(dispatch) {
     },
     unhighlightParticipant: userId => {
       dispatch(unhighlightParticipant(userId));
+    },
+    removeAllParticipants: () => {
+      dispatch(removeAllParticipants());
     },
   };
 }

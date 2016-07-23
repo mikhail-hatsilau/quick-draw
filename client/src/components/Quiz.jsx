@@ -14,7 +14,11 @@ class Quiz extends React.Component {
       passTest: this.passTest,
     };
   }
-  componentDidMount() {
+  componentWillMount() {
+    const task = JSON.parse(localStorage.getItem('currentTask'));
+    if (task) {
+      this.props.startTest(task);
+    }
     socket.emit('join participant', {
       user: this.props.auth.get('user'),
     });
@@ -30,6 +34,8 @@ class Quiz extends React.Component {
         this.passTest(false);
       }
     });
+  }
+  componentDidMount() {
   }
   componentWillUnmount() {
     socket.emit('participant left', this.props.auth.get('user'));

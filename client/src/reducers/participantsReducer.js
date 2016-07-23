@@ -16,6 +16,23 @@ function sortComparator(participant1, participant2) {
   return timeSum1 - timeSum2;
 }
 
+function sortByTaskComparator(participant1, participant2, taskId) {
+  const taskResults1 = participant1.get('tasksResults');
+  const taskResults2 = participant2.get('tasksResults');
+  const targetTask1 = taskResults1.find(r => r.get('task') === taskId);
+  const targetTask2 = taskResults2.find(r => r.get('task') === taskId);
+  if (!targetTask1 || !targetTask1) {
+    if (!targetTask1 && targetTask2) {
+      return 1;
+    } else if (targetTask1 && !targetTask2){
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+  return targetTask1.get('time') - targetTask2.get('time');
+}
+
 export default function (state = fromJS({ participants: [] }), action) {
   switch (action.type) {
     case constants.GET_PARTICIPANTS_SUCCESS:
@@ -78,6 +95,18 @@ export default function (state = fromJS({ participants: [] }), action) {
           participant.get('user').get('_id') === action.userId ? participant.delete('highlighted') : participant
         ))
       ));
+    case constants.REMOVE_ALL_PARTICIPANTS:
+      return state.update('participants', participants => List());
+    case constants.SORT:
+      return state.update('participants', participants => {
+        return participants.sort((p1, p2) => {
+          console.log(action.taskId);
+          if (action.taskId) {
+            return sortByTaskComparator(p1, p2, action.taskId)
+          }
+          return sortComparator(p1, p2);
+        });
+      });
     default:
       return state;
   }

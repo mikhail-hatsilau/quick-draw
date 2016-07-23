@@ -8,7 +8,7 @@ import {
   startTask,
   stopTask } from '../actions/tasksActions';
 import { incTimer } from '../actions/quizActions';
-import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant, clearResults, clearResultsOfTask } from '../actions/participantsActions';
+import { getParticipants, addResultOfParticipant, addParticipant, removeParticipant, clearResults, clearResultsOfTask, removeAllParticipants, sort } from '../actions/participantsActions';
 
 function mapStateToProps(state) {
   return {
@@ -60,6 +60,12 @@ function mapDispatchToProps(dispatch) {
     clearResultsOfTask: taskId => {
       dispatch(clearResultsOfTask(taskId));
     },
+    removeAllParticipants: () => {
+      dispatch(removeAllParticipants());
+    },
+    sort: taskId => {
+      dispatch(sort(taskId));
+    }
   };
 }
 

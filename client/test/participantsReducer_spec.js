@@ -804,4 +804,431 @@ describe('Participants reducer', () => {
       }],
     }));
   });
+  it('should remove all participants', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.REMOVE_ALL_PARTICIPANTS,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 50,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [],
+    }));
+  });
+  it('should sort participants by task', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 30,
+            selector: '.sel',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.SORT,
+      taskId: 1,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 30,
+            selector: '.sel',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      },
+      {
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 30,
+            selector: '.sel',
+          },
+        ],
+      }],
+    }));
+  });
+  it('should sort participants by task (some participants do not have this task)', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.SORT,
+      taskId: 2,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      },
+      {
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+        ],
+      }],
+    }));
+  });
+  it('should sort participants by total time', () => {
+    const state = fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    });
+    const action = {
+      type: constants.SORT,
+      taskId: undefined,
+    };
+    const nextState = participantsReducer(state, action);
+    expect(state).to.equal(fromJS({
+      participants: [{
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }, {
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    }));
+    expect(nextState).to.equal(fromJS({
+      participants: [{
+        _id: 2,
+        user: {
+          _id: 3,
+          username: 'test1',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 10,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      },
+      {
+        _id: 1,
+        user: {
+          _id: 2,
+          username: 'test',
+        },
+        tasksResults: [
+          {
+            task: 1,
+            time: 20,
+            selector: '.class',
+          },
+          {
+            task: 2,
+            time: 40,
+            selector: '.sel',
+          },
+        ],
+      }],
+    }));
+  });
 });

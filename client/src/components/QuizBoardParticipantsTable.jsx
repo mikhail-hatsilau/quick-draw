@@ -4,24 +4,25 @@ import Timer from './Timer';
 
 class QuizBoardParticipantsTable extends React.Component {
   render() {
-    const participants = this.props.participants.map(participant => {
-      console.log(participant.get('highlighted'));
-      return (<QuizBoardParticipantRow
+    const participants = this.props.participants.map(participant => (
+      <QuizBoardParticipantRow
         key={participant.get('_id')}
         participant={participant}
         showSelector={this.props.showSelector}
         currentTask={this.props.currentTask}
         highlight={participant.get('highlighted') || false}
-      />);
-    });
+      />
+    ));
     return (
-      <div>
-        <div>Current task: {this.props.currentTask && this.props.currentTask.get('name')}</div>
-        <div>
-          Time spent:
-          <Timer>{this.props.timeSpent}</Timer>
+      <div className="board">
+        <div className="common-info">
+          <div className="current-task">Current task: <span>{this.props.currentTask && this.props.currentTask.get('name') || '--'}</span></div>
+          <div className="time-spent">
+            Time spent:
+            <Timer>{this.props.timeSpent}</Timer>
+          </div>
         </div>
-        <table>
+        <table className="participants">
           <thead>
             <tr>
               <th>Participant</th>
@@ -31,6 +32,7 @@ class QuizBoardParticipantsTable extends React.Component {
                 <th>Selector</th> :
                 null
               }
+              <th>Total time</th>
             </tr>
           </thead>
           <tbody>

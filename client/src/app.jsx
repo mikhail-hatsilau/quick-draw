@@ -23,6 +23,7 @@ import { authenticate } from './actions/authActions';
 import constants from './constants/constants';
 
 import './styles/style.scss';
+import 'font-awesome/css/font-awesome.css';
 import './index.html';
 
 const cssQuickDraw = combineReducers({
@@ -87,7 +88,7 @@ ReactDOM.render(
         <Route path="/users" component={UsersContainer} onEnter={requireAuthAndAdminRole} />
         <Route path="/tasks" component={TasksContainer} onEnter={requireAuthAndAdminRole} />
         <Route path="/quizBoard" component={QuizBoardContainer} onEnter={requireAuthAndAdminRole} />
-        <Route path="/quiz" component={QuizContainer} onEnter={requireAuth}>
+        <Route path="quiz" component={QuizContainer} onEnter={requireAuth}>
           <IndexRedirect to="/ready" />
           <Route path="/ready" component={ReadyForTestContainer} onEnter={requireAuth} />
           <Route path="/quizTask" component={QuizTaskContainer} onEnter={requireAuth} />
