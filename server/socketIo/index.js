@@ -49,21 +49,23 @@ function updateParticipant(data, callback) {
     if (err) {
       throw new Error(err);
     }
-    if (participant.tasksResults.findIndex(result => result.task.toString() === taskResult.task) !== -1) {
-      Participant.update({ user: userId, 'tasksResults.task': taskId }, { $set: { 'tasksResults.$': taskResult } }, (err) => {
+    if (participant) {
+      if (participant.tasksResults.findIndex(result => result.task.toString() === taskResult.task) !== -1) {
+        Participant.update({ user: userId, 'tasksResults.task': taskId }, { $set: { 'tasksResults.$': taskResult } }, (err) => {
+          if (err) {
+            throw new Error(err);
+          }
+          callback();
+        });
+        return;
+      }
+      Participant.update({ user: userId }, { $push: { tasksResults: taskResult } }, (err) => {
         if (err) {
           throw new Error(err);
         }
         callback();
       });
-      return;
     }
-    Participant.update({ user: userId }, { $push: { tasksResults: taskResult } }, (err) => {
-      if (err) {
-        throw new Error(err);
-      }
-      callback();
-    });
   });
 }
 
