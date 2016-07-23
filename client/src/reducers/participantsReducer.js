@@ -100,7 +100,6 @@ export default function (state = fromJS({ participants: [] }), action) {
     case constants.SORT:
       return state.update('participants', participants => {
         return participants.sort((p1, p2) => {
-          console.log(action.taskId);
           if (action.taskId) {
             return sortByTaskComparator(p1, p2, action.taskId)
           }

@@ -107,8 +107,8 @@ export default function (io) {
   let interval;
   io.on('connection', socket => {
     socket.on('join participant', data => {
+      socket.join('participants');
       saveJoinedUser(data, participant => {
-        socket.join('participants');
         io.to('admins').emit('participant joined', participant);
       });
     });

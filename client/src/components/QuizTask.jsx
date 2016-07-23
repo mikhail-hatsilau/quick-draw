@@ -56,7 +56,6 @@ class QuizTask extends React.Component {
     });
   }
   answareChanged(selector) {
-    console.log(selector);
     this.props.updateSelector(selector);
   }
   checkAnswares(selector) {
